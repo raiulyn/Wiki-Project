@@ -136,6 +136,55 @@ namespace Wiki_Project
             listView1.Items.Add("HELLO");
         }
 
+        // Create a method so the user can select a definition (Name) from the ListView and all the information is displayed in the appropriate Textboxes,
+        private void ShowDetails()
+        {
+
+        }
+
+        // Create a SAVE button so the information from the 2D array can be written into a binary file called definitions.dat which is sorted by Name,
+        // ensure the user has the option to select an alternative file. Use a file stream and BinaryWriter to create the file.
+        string fileName = "/definitions.dat";
+        private void SaveFile()
+        {
+            using (var stream = File.Open(fileName, FileMode.Create))
+            {
+                using (var writer = new BinaryWriter(stream, System.Text.Encoding.UTF8, false))
+                {
+                    foreach(var d in data)
+                    {
+                        writer.Write(d);
+                    }
+                }
+            }
+            MessageBox.Show("Data Saved!");
+        }
+
+        // Create a LOAD button that will read the information from a binary file called definitions.dat into the 2D array,
+        // ensure the user has the option to select an alternative file. Use a file stream and BinaryReader to complete this task.
+        private void LoadFile()
+        {
+            if(File.Exists(fileName))
+            {
+                using (var stream = File.Open(fileName, FileMode.Open))
+                {
+                    using (var reader = new BinaryReader(stream, System.Text.Encoding.UTF8, false))
+                    {
+                        // TODO
+                    }
+                }
+            }
+            MessageBox.Show("Data Loaded!");
+        }
+
+        // All code is required to be adequately commented, and each interaction must have suitable error trapping and/or feedback.
+        // All methods must utilise the appropriate Dialog Boxes, Message Boxes, etc to ensure fully user functionality.
+        // Map the programming criteria (9.1 - 9.11) and features to your code/methods by adding comments above the method signatures.
+        // Ensure your code is compliant with the CITEMS coding standards (refer http://www.citems.com.au/).
+
+
+
+
 
     }
 }
