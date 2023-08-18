@@ -6,6 +6,16 @@ namespace Wiki_Project
         {
             InitializeComponent();
             FillInData();
+            listView1.SelectedIndexChanged += ListView1_SelectedIndexChanged;
+        }
+
+        private void ListView1_SelectedIndexChanged(object? sender, EventArgs e)
+        {
+            if (listView1.SelectedItems.Count > 0)
+            {
+                var item = listView1.SelectedItems[0];
+                ShowDetails(item.SubItems[3].Text);
+            }
         }
 
         // Create a global 2D string array, use static variables for the dimensions (row = 12, column = 4),
@@ -16,26 +26,24 @@ namespace Wiki_Project
         private void FillInData()
         {
             data = new string[rows, columns];
-            data[0, 0] = "Data Structure";
-            data[0, 1] = "Category";
-            data[0, 2] = "Structure";
-            data[0, 3] = "Definition";
             Display();
         }
 
         // Create an ADD button that will store the information from the 4 text boxes into the 2D array,
         private void Add_Btn_Click(object sender, EventArgs e)
         {
-            for (int i = 1; i < data.GetLength(0); i++)
+            for (int y = 0; y < data.GetLength(0); y++)
             {
-                if (data[i, 0] == null)
+                if (data[y, 0] == string.Empty || data[y, 0] == null || data[y, 0] == "~")
                 {
-                    GrabDataFromTextBoxes(i);
+                    GrabDataFromTextBoxes(y);
                     break;
                 }
             }
-            MessageBox.Show("Data Added!");
+            
             Display();
+            Clear();
+            MessageBox.Show("Data Added!");
         }
         private void GrabDataFromTextBoxes(int ent)
         {
@@ -66,7 +74,7 @@ namespace Wiki_Project
             switch (confirmResult)
             {
                 case DialogResult.Yes:
-                    DeleteEntry(1);
+                    DeleteEntry(listView1.SelectedIndices[0]);
                     break;
                 case DialogResult.No:
 
@@ -74,6 +82,7 @@ namespace Wiki_Project
                 default:
                     break;
             }
+            Display();
         }
         private void DeleteEntry(int index)
         {
@@ -131,51 +140,90 @@ namespace Wiki_Project
         // Create a display method that will show the following information in a ListView: Name and Category,
         private void Display()
         {
-            listView1 = new ListView();
+            listView1.Clear();
             listView1.View = View.Details;
-            listView1.Items.Add("HELLO");
+
+            listView1.Columns.Add("Data Structure", 100);
+            listView1.Columns.Add("Category", 100);
+            //listView1.Columns.Add("Structure", 100);
+            //listView1.Columns.Add("Definition", 100);
+
+            for (int y = 0; y < data.GetLength(1); y++)
+            {
+                listView1.Items.Add(data[y, 0]);
+                listView1.Items[y].SubItems.Add(data[y, 1]);
+                listView1.Items[y].SubItems.Add(data[y, 2]);
+                listView1.Items[y].SubItems.Add(data[y, 3]);
+            }
+
         }
 
         // Create a method so the user can select a definition (Name) from the ListView and all the information is displayed in the appropriate Textboxes,
-        private void ShowDetails()
+        private void ShowDetails(string details)
         {
-
+            DescriptionBox.Text = details;
         }
 
         // Create a SAVE button so the information from the 2D array can be written into a binary file called definitions.dat which is sorted by Name,
         // ensure the user has the option to select an alternative file. Use a file stream and BinaryWriter to create the file.
-        string fileName = "/definitions.dat";
+        const string fileName = "definitions.dat";
         private void SaveFile()
         {
-            using (var stream = File.Open(fileName, FileMode.Create))
+            if (File.Exists(fileName))
             {
-                using (var writer = new BinaryWriter(stream, System.Text.Encoding.UTF8, false))
+                File.Delete(fileName);
+            }
+            using (StreamWriter sw = new StreamWriter(fileName, true))
+            {
+                for (int y = 1; y < data.GetLength(0); y++)
                 {
-                    foreach(var d in data)
-                    {
-                        writer.Write(d);
-                    }
+                    sw.WriteLine(data[y, 0]);
                 }
             }
             MessageBox.Show("Data Saved!");
         }
+        private void Save_Btn_Click(object sender, EventArgs e)
+        {
+            SaveFile();
+        }
 
         // Create a LOAD button that will read the information from a binary file called definitions.dat into the 2D array,
         // ensure the user has the option to select an alternative file. Use a file stream and BinaryReader to complete this task.
-        private void LoadFile()
+        private void LoadFile(Stream stream, string filepath)
         {
-            if(File.Exists(fileName))
+            if(File.Exists(filepath))
             {
-                using (var stream = File.Open(fileName, FileMode.Open))
+                using(stream)
                 {
-                    using (var reader = new BinaryReader(stream, System.Text.Encoding.UTF8, false))
+                    using(var reader = new BinaryReader(stream, System.Text.Encoding.UTF8))
                     {
-                        // TODO
+                        for (int x = 0; x < data.GetLength(1); x++)
+                        {
+
+                        }
                     }
                 }
             }
             MessageBox.Show("Data Loaded!");
         }
+
+        private void Load_Btn_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+                openFileDialog.Filter = "dat files (*.dat)";
+                openFileDialog.RestoreDirectory = true;
+
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    //Read the contents of the file into a stream
+                    LoadFile(openFileDialog.OpenFile(), openFileDialog.FileName);
+
+                }
+            }
+        }
+
+
 
         // All code is required to be adequately commented, and each interaction must have suitable error trapping and/or feedback.
         // All methods must utilise the appropriate Dialog Boxes, Message Boxes, etc to ensure fully user functionality.
