@@ -107,6 +107,19 @@ namespace Wiki_Project
         {
 
         }
+        private void TurnEmptyEntriesToSwaps()
+        {
+            for (int y = 0; y < data.GetLength(0); y++)
+            {
+                if(data[y, 0] == String.Empty || data[y, 0] == null)
+                {
+                    data[y, 0] = "~";
+                    data[y, 1] = "~";
+                    data[y, 2] = "~";
+                    data[y, 3] = "~";
+                }
+            }
+        }
 
         // Write the code for a Binary Search for the Name in the 2D array and display the information in the other textboxes when found,
         // add suitable feedback if the search in not successful and clear the search textbox (do not use any built-in array methods),
@@ -148,7 +161,7 @@ namespace Wiki_Project
             //listView1.Columns.Add("Structure", 100);
             //listView1.Columns.Add("Definition", 100);
 
-            for (int y = 0; y < data.GetLength(1); y++)
+            for (int y = 0; y < data.GetLength(0); y++)
             {
                 listView1.Items.Add(data[y, 0]);
                 listView1.Items[y].SubItems.Add(data[y, 1]);
@@ -173,11 +186,20 @@ namespace Wiki_Project
             {
                 File.Delete(fileName);
             }
-            using (StreamWriter sw = new StreamWriter(fileName, true))
+            using (var stream = File.Open(fileName, FileMode.Create))
             {
-                for (int y = 1; y < data.GetLength(0); y++)
+                using (var writer = new BinaryWriter(stream, System.Text.Encoding.UTF8, false))
                 {
-                    sw.WriteLine(data[y, 0]);
+                    for (int y = 0; y < data.GetLength(0); y++)
+                    {
+                        if(data[y, 0] != null)
+                        {
+                            writer.Write(data[y, 0]);
+                            writer.Write(data[y, 1]);
+                            writer.Write(data[y, 2]);
+                            writer.Write(data[y, 3]);
+                        }
+                    }
                 }
             }
             MessageBox.Show("Data Saved!");
@@ -191,15 +213,22 @@ namespace Wiki_Project
         // ensure the user has the option to select an alternative file. Use a file stream and BinaryReader to complete this task.
         private void LoadFile(Stream stream, string filepath)
         {
-            if(File.Exists(filepath))
+            if(!File.Exists(filepath))
             {
-                using(stream)
+                return;
+            }
+            using (stream)
+            {
+                using (var reader = new BinaryReader(stream, System.Text.Encoding.UTF8, false))
                 {
-                    using(var reader = new BinaryReader(stream, System.Text.Encoding.UTF8))
+                    while (stream.Position < stream.Length)
                     {
-                        for (int x = 0; x < data.GetLength(1); x++)
+                        for (int i = 0; i < rows + 1; i++)
                         {
-
+                            data[i, 0] = reader.ReadString();
+                            data[i, 1] = reader.ReadString();
+                            data[i, 2] = reader.ReadString();
+                            data[i, 3] = reader.ReadString();
                         }
                     }
                 }
@@ -211,7 +240,7 @@ namespace Wiki_Project
         {
             using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {
-                openFileDialog.Filter = "dat files (*.dat)";
+                openFileDialog.Filter = "dat files (*.txt)|*.dat|All files (*.*)|*.*";
                 openFileDialog.RestoreDirectory = true;
 
                 if (openFileDialog.ShowDialog() == DialogResult.OK)

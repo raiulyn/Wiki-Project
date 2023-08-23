@@ -28,10 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem("1");
-            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem("2");
-            System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem("3");
-            System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem("4");
+            System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem("1");
+            System.Windows.Forms.ListViewItem listViewItem6 = new System.Windows.Forms.ListViewItem("2");
+            System.Windows.Forms.ListViewItem listViewItem7 = new System.Windows.Forms.ListViewItem("3");
+            System.Windows.Forms.ListViewItem listViewItem8 = new System.Windows.Forms.ListViewItem("4");
             this.Add_Btn = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
@@ -44,11 +44,16 @@
             this.Save_Btn = new System.Windows.Forms.Button();
             this.Load_Btn = new System.Windows.Forms.Button();
             this.DescriptionBox = new System.Windows.Forms.TextBox();
+            this.DataStructureLabel = new System.Windows.Forms.Label();
+            this.CategoryLabel = new System.Windows.Forms.Label();
+            this.StructureLabel = new System.Windows.Forms.Label();
+            this.DefinitionLabel = new System.Windows.Forms.Label();
+            this.SearchLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // Add_Btn
             // 
-            this.Add_Btn.Location = new System.Drawing.Point(173, 22);
+            this.Add_Btn.Location = new System.Drawing.Point(173, 84);
             this.Add_Btn.Name = "Add_Btn";
             this.Add_Btn.Size = new System.Drawing.Size(75, 23);
             this.Add_Btn.TabIndex = 0;
@@ -58,21 +63,21 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(33, 23);
+            this.textBox1.Location = new System.Drawing.Point(33, 37);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(100, 23);
             this.textBox1.TabIndex = 1;
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(33, 71);
+            this.textBox2.Location = new System.Drawing.Point(33, 84);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(100, 23);
             this.textBox2.TabIndex = 2;
             // 
             // textBox3
             // 
-            this.textBox3.Location = new System.Drawing.Point(33, 126);
+            this.textBox3.Location = new System.Drawing.Point(33, 132);
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(100, 23);
             this.textBox3.TabIndex = 3;
@@ -86,7 +91,7 @@
             // 
             // Edit_Btn
             // 
-            this.Edit_Btn.Location = new System.Drawing.Point(173, 70);
+            this.Edit_Btn.Location = new System.Drawing.Point(173, 132);
             this.Edit_Btn.Name = "Edit_Btn";
             this.Edit_Btn.Size = new System.Drawing.Size(75, 23);
             this.Edit_Btn.TabIndex = 5;
@@ -96,7 +101,7 @@
             // 
             // Delete_Btn
             // 
-            this.Delete_Btn.Location = new System.Drawing.Point(173, 110);
+            this.Delete_Btn.Location = new System.Drawing.Point(173, 181);
             this.Delete_Btn.Name = "Delete_Btn";
             this.Delete_Btn.Size = new System.Drawing.Size(75, 23);
             this.Delete_Btn.TabIndex = 6;
@@ -106,27 +111,27 @@
             // 
             // Search_TextBox
             // 
-            this.Search_TextBox.Location = new System.Drawing.Point(173, 151);
+            this.Search_TextBox.Location = new System.Drawing.Point(301, 55);
             this.Search_TextBox.Name = "Search_TextBox";
-            this.Search_TextBox.Size = new System.Drawing.Size(100, 23);
+            this.Search_TextBox.Size = new System.Drawing.Size(503, 23);
             this.Search_TextBox.TabIndex = 7;
             // 
             // listView1
             // 
             this.listView1.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem1,
-            listViewItem2,
-            listViewItem3,
-            listViewItem4});
-            this.listView1.Location = new System.Drawing.Point(301, 23);
+            listViewItem5,
+            listViewItem6,
+            listViewItem7,
+            listViewItem8});
+            this.listView1.Location = new System.Drawing.Point(301, 84);
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(503, 472);
+            this.listView1.Size = new System.Drawing.Size(503, 411);
             this.listView1.TabIndex = 8;
             this.listView1.UseCompatibleStateImageBehavior = false;
             // 
             // Save_Btn
             // 
-            this.Save_Btn.Location = new System.Drawing.Point(173, 472);
+            this.Save_Btn.Location = new System.Drawing.Point(164, 472);
             this.Save_Btn.Name = "Save_Btn";
             this.Save_Btn.Size = new System.Drawing.Size(75, 23);
             this.Save_Btn.TabIndex = 9;
@@ -136,7 +141,7 @@
             // 
             // Load_Btn
             // 
-            this.Load_Btn.Location = new System.Drawing.Point(82, 472);
+            this.Load_Btn.Location = new System.Drawing.Point(58, 472);
             this.Load_Btn.Name = "Load_Btn";
             this.Load_Btn.Size = new System.Drawing.Size(75, 23);
             this.Load_Btn.TabIndex = 10;
@@ -146,17 +151,72 @@
             // 
             // DescriptionBox
             // 
-            this.DescriptionBox.Location = new System.Drawing.Point(33, 254);
+            this.DescriptionBox.Location = new System.Drawing.Point(21, 235);
             this.DescriptionBox.Multiline = true;
             this.DescriptionBox.Name = "DescriptionBox";
-            this.DescriptionBox.Size = new System.Drawing.Size(240, 165);
+            this.DescriptionBox.Size = new System.Drawing.Size(262, 212);
             this.DescriptionBox.TabIndex = 11;
+            // 
+            // DataStructureLabel
+            // 
+            this.DataStructureLabel.AutoSize = true;
+            this.DataStructureLabel.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.DataStructureLabel.Location = new System.Drawing.Point(33, 19);
+            this.DataStructureLabel.Name = "DataStructureLabel";
+            this.DataStructureLabel.Size = new System.Drawing.Size(90, 15);
+            this.DataStructureLabel.TabIndex = 12;
+            this.DataStructureLabel.Text = "Data Structure";
+            // 
+            // CategoryLabel
+            // 
+            this.CategoryLabel.AutoSize = true;
+            this.CategoryLabel.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.CategoryLabel.Location = new System.Drawing.Point(33, 66);
+            this.CategoryLabel.Name = "CategoryLabel";
+            this.CategoryLabel.Size = new System.Drawing.Size(57, 15);
+            this.CategoryLabel.TabIndex = 13;
+            this.CategoryLabel.Text = "Category";
+            // 
+            // StructureLabel
+            // 
+            this.StructureLabel.AutoSize = true;
+            this.StructureLabel.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.StructureLabel.Location = new System.Drawing.Point(33, 114);
+            this.StructureLabel.Name = "StructureLabel";
+            this.StructureLabel.Size = new System.Drawing.Size(61, 15);
+            this.StructureLabel.TabIndex = 14;
+            this.StructureLabel.Text = "Structure";
+            // 
+            // DefinitionLabel
+            // 
+            this.DefinitionLabel.AutoSize = true;
+            this.DefinitionLabel.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.DefinitionLabel.Location = new System.Drawing.Point(33, 163);
+            this.DefinitionLabel.Name = "DefinitionLabel";
+            this.DefinitionLabel.Size = new System.Drawing.Size(63, 15);
+            this.DefinitionLabel.TabIndex = 15;
+            this.DefinitionLabel.Text = "Definition";
+            // 
+            // SearchLabel
+            // 
+            this.SearchLabel.AutoSize = true;
+            this.SearchLabel.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.SearchLabel.Location = new System.Drawing.Point(301, 37);
+            this.SearchLabel.Name = "SearchLabel";
+            this.SearchLabel.Size = new System.Drawing.Size(45, 15);
+            this.SearchLabel.TabIndex = 16;
+            this.SearchLabel.Text = "Search";
             // 
             // MainMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(816, 527);
+            this.Controls.Add(this.SearchLabel);
+            this.Controls.Add(this.DefinitionLabel);
+            this.Controls.Add(this.StructureLabel);
+            this.Controls.Add(this.CategoryLabel);
+            this.Controls.Add(this.DataStructureLabel);
             this.Controls.Add(this.DescriptionBox);
             this.Controls.Add(this.Load_Btn);
             this.Controls.Add(this.Save_Btn);
@@ -190,5 +250,10 @@
         private Button Save_Btn;
         private Button Load_Btn;
         private TextBox DescriptionBox;
+        private Label DataStructureLabel;
+        private Label CategoryLabel;
+        private Label StructureLabel;
+        private Label DefinitionLabel;
+        private Label SearchLabel;
     }
 }
