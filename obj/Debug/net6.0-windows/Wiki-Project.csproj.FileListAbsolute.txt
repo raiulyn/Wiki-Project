@@ -15,3 +15,20 @@ D:\C# Projects\Wiki-Project\obj\Debug\net6.0-windows\refint\Wiki-Project.dll
 D:\C# Projects\Wiki-Project\obj\Debug\net6.0-windows\Wiki-Project.pdb
 D:\C# Projects\Wiki-Project\obj\Debug\net6.0-windows\Wiki-Project.genruntimeconfig.cache
 D:\C# Projects\Wiki-Project\obj\Debug\net6.0-windows\ref\Wiki-Project.dll
+C:\Users\30082866\Source\Repos\Wiki-Project\bin\Debug\net6.0-windows\Wiki-Project.exe
+C:\Users\30082866\Source\Repos\Wiki-Project\bin\Debug\net6.0-windows\Wiki-Project.deps.json
+C:\Users\30082866\Source\Repos\Wiki-Project\bin\Debug\net6.0-windows\Wiki-Project.runtimeconfig.json
+C:\Users\30082866\Source\Repos\Wiki-Project\bin\Debug\net6.0-windows\Wiki-Project.dll
+C:\Users\30082866\Source\Repos\Wiki-Project\bin\Debug\net6.0-windows\Wiki-Project.pdb
+C:\Users\30082866\Source\Repos\Wiki-Project\obj\Debug\net6.0-windows\Wiki-Project.csproj.AssemblyReference.cache
+C:\Users\30082866\Source\Repos\Wiki-Project\obj\Debug\net6.0-windows\Wiki_Project.MainMenu.resources
+C:\Users\30082866\Source\Repos\Wiki-Project\obj\Debug\net6.0-windows\Wiki-Project.csproj.GenerateResource.cache
+C:\Users\30082866\Source\Repos\Wiki-Project\obj\Debug\net6.0-windows\Wiki-Project.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\30082866\Source\Repos\Wiki-Project\obj\Debug\net6.0-windows\Wiki-Project.AssemblyInfoInputs.cache
+C:\Users\30082866\Source\Repos\Wiki-Project\obj\Debug\net6.0-windows\Wiki-Project.AssemblyInfo.cs
+C:\Users\30082866\Source\Repos\Wiki-Project\obj\Debug\net6.0-windows\Wiki-Project.csproj.CoreCompileInputs.cache
+C:\Users\30082866\Source\Repos\Wiki-Project\obj\Debug\net6.0-windows\Wiki-Project.dll
+C:\Users\30082866\Source\Repos\Wiki-Project\obj\Debug\net6.0-windows\refint\Wiki-Project.dll
+C:\Users\30082866\Source\Repos\Wiki-Project\obj\Debug\net6.0-windows\Wiki-Project.pdb
+C:\Users\30082866\Source\Repos\Wiki-Project\obj\Debug\net6.0-windows\Wiki-Project.genruntimeconfig.cache
+C:\Users\30082866\Source\Repos\Wiki-Project\obj\Debug\net6.0-windows\ref\Wiki-Project.dll

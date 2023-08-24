@@ -40,7 +40,7 @@ namespace Wiki_Project
                     break;
                 }
             }
-            
+
             Display();
             Clear();
             MessageBox.Show("Data Added!");
@@ -90,6 +90,7 @@ namespace Wiki_Project
             data[index, 1] = string.Empty;
             data[index, 2] = string.Empty;
             data[index, 3] = string.Empty;
+            DescriptionBox.Text = string.Empty;
         }
 
         // Create a CLEAR method to clear the four text boxes so a new definition can be added,
@@ -111,7 +112,7 @@ namespace Wiki_Project
         {
             for (int y = 0; y < data.GetLength(0); y++)
             {
-                if(data[y, 0] == String.Empty || data[y, 0] == null)
+                if (data[y, 0] == String.Empty || data[y, 0] == null)
                 {
                     data[y, 0] = "~";
                     data[y, 1] = "~";
@@ -158,7 +159,7 @@ namespace Wiki_Project
 
             listView1.Columns.Add("Data Structure", 100);
             listView1.Columns.Add("Category", 100);
-            //listView1.Columns.Add("Structure", 100);
+            listView1.Columns.Add("Structure", 100);
             //listView1.Columns.Add("Definition", 100);
 
             for (int y = 0; y < data.GetLength(0); y++)
@@ -192,7 +193,7 @@ namespace Wiki_Project
                 {
                     for (int y = 0; y < data.GetLength(0); y++)
                     {
-                        if(data[y, 0] != null)
+                        if (data[y, 0] != null)
                         {
                             writer.Write(data[y, 0]);
                             writer.Write(data[y, 1]);
@@ -213,7 +214,8 @@ namespace Wiki_Project
         // ensure the user has the option to select an alternative file. Use a file stream and BinaryReader to complete this task.
         private void LoadFile(Stream stream, string filepath)
         {
-            if(!File.Exists(filepath))
+            int nextEmptyRow = 0;
+            if (!File.Exists(filepath))
             {
                 return;
             }
@@ -223,13 +225,11 @@ namespace Wiki_Project
                 {
                     while (stream.Position < stream.Length)
                     {
-                        for (int i = 0; i < rows + 1; i++)
-                        {
-                            data[i, 0] = reader.ReadString();
-                            data[i, 1] = reader.ReadString();
-                            data[i, 2] = reader.ReadString();
-                            data[i, 3] = reader.ReadString();
-                        }
+                        data[nextEmptyRow, 0] = reader.ReadString();
+                        data[nextEmptyRow, 1] = reader.ReadString();
+                        data[nextEmptyRow, 2] = reader.ReadString();
+                        data[nextEmptyRow, 3] = reader.ReadString();
+                        nextEmptyRow++;
                     }
                 }
             }
@@ -251,8 +251,6 @@ namespace Wiki_Project
                 }
             }
         }
-
-
 
         // All code is required to be adequately commented, and each interaction must have suitable error trapping and/or feedback.
         // All methods must utilise the appropriate Dialog Boxes, Message Boxes, etc to ensure fully user functionality.
