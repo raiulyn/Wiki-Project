@@ -5,16 +5,16 @@ namespace Wiki_Project
         public MainMenu()
         {
             InitializeComponent();
-            FillInData();
+            InitializeData();
             listView1.SelectedIndexChanged += ListView1_SelectedIndexChanged;
         }
 
         private void ListView1_SelectedIndexChanged(object? sender, EventArgs e)
         {
-            if (listView1.SelectedItems.Count > 0)
+            if (listView1.SelectedIndices.Count > 0)
             {
-                var item = listView1.SelectedItems[0];
-                ShowDetails(item.SubItems[3].Text);
+                int ind = listView1.SelectedIndices[0];
+                ShowDetails(data[ind, 0], data[ind, 1], data[ind, 2], data[ind, 3]);
             }
         }
 
@@ -23,7 +23,7 @@ namespace Wiki_Project
         public int rows = 12;
         public int columns = 4;
 
-        private void FillInData()
+        private void InitializeData()
         {
             data = new string[rows, columns];
             Display();
@@ -50,20 +50,15 @@ namespace Wiki_Project
             data[ent, 0] = textBox1.Text;
             data[ent, 1] = textBox2.Text;
             data[ent, 2] = textBox3.Text;
-            data[ent, 3] = textBox4.Text;
+            data[ent, 3] = DescriptionBox.Text;
         }
 
         // Create an EDIT button that will allow the user to modify any information from the 4 text boxes into the 2D array,
         private void Edit_Btn_Click(object sender, EventArgs e)
         {
-            for (int i = 1; i < data.GetLength(0); i++)
-            {
-                if (data[i, 0] != null)
-                {
-                    GrabDataFromTextBoxes(i);
-                    break;
-                }
-            }
+            int ind = listView1.SelectedIndices[0];
+            GrabDataFromTextBoxes(ind);
+            Display();
             MessageBox.Show("Data Changed!");
         }
 
@@ -74,7 +69,16 @@ namespace Wiki_Project
             switch (confirmResult)
             {
                 case DialogResult.Yes:
-                    DeleteEntry(listView1.SelectedIndices[0]);
+                    if(listView1.SelectedIndices.Count > 0)
+                    {
+                        DeleteEntry(listView1.SelectedIndices[0]);
+                        MoveToEmptyEntries();
+                        Display();
+                    }
+                    else
+                    {
+                        MessageBox.Show("No Entry selected!");
+                    }
                     break;
                 case DialogResult.No:
 
@@ -82,7 +86,7 @@ namespace Wiki_Project
                 default:
                     break;
             }
-            Display();
+            
         }
         private void DeleteEntry(int index)
         {
@@ -99,16 +103,69 @@ namespace Wiki_Project
             textBox1.Clear();
             textBox2.Clear();
             textBox3.Clear();
-            textBox4.Clear();
+            DescriptionBox.Clear();
         }
 
         // Write the code for a Bubble Sort method to sort the 2D array by Name ascending,
         // ensure you use a separate swap method that passes the array element to be swapped (do not use any built-in array methods),
         private void BubbleSort()
         {
-
+            TurnEmptyEntriesToSymbol();
+            for (int y = 0; y < data.GetLength(0) - 1; y++)
+            {
+                if (String.Compare(data[y, 0], data[y + 1, 0], true) > 0)
+                {
+                    Swap(y, y + 1);
+                }
+            }
+            MoveToEmptyEntries();
+            Display();
         }
-        private void TurnEmptyEntriesToSwaps()
+        private void Swap(int index1, int index2)
+        {
+            string[,] temp = new string[rows, columns];
+            temp[0, 0] = data[index1, 0];
+            temp[0, 1] = data[index1, 1];
+            temp[0, 2] = data[index1, 2];
+            temp[0, 3] = data[index1, 3];
+
+            data[index1, 0] = data[index2, 0];
+            data[index1, 1] = data[index2, 1];
+            data[index1, 2] = data[index2, 2];
+            data[index1, 3] = data[index2, 3];
+
+            data[index2, 0] = temp[0, 0];
+            data[index2, 1] = temp[0, 1];
+            data[index2, 2] = temp[0, 2];
+            data[index2, 3] = temp[0, 3];
+        }
+        private void MoveToEmptyEntries()
+        {
+            // Moves all available data to temp
+            int counter = 0;
+            string[,] temp = new string[rows, columns];
+            for (int y = 0; y < data.GetLength(0); y++)
+            {
+                if (data[y, 0] != String.Empty && data[y, 0] != "~")
+                {
+                    temp[counter, 0] = data[y, 0];
+                    temp[counter, 1] = data[y, 1];
+                    temp[counter, 2] = data[y, 2];
+                    temp[counter, 3] = data[y, 3];
+                    counter++;
+                }
+            }
+            // Clears and moves back available data from temp
+            data = new string[rows, columns];
+            for (int y = 0; y < temp.GetLength(0); y++)
+            {
+                data[y, 0] = temp[y, 0];
+                data[y, 1] = temp[y, 1];
+                data[y, 2] = temp[y, 2];
+                data[y, 3] = temp[y, 3];
+            }
+        }
+        private void TurnEmptyEntriesToSymbol()
         {
             for (int y = 0; y < data.GetLength(0); y++)
             {
@@ -121,11 +178,30 @@ namespace Wiki_Project
                 }
             }
         }
+        private void RemoveAllSymbols()
+        {
+            for (int y = 0; y < data.GetLength(0); y++)
+            {
+                if (data[y, 0] == "~")
+                {
+                    data[y, 0] = String.Empty;
+                    data[y, 1] = String.Empty;
+                    data[y, 2] = String.Empty;
+                    data[y, 3] = String.Empty;
+                }
+            }
+        }
+
+        private void Sort_Btn_Click(object sender, EventArgs e)
+        {
+            BubbleSort();
+        }
 
         // Write the code for a Binary Search for the Name in the 2D array and display the information in the other textboxes when found,
         // add suitable feedback if the search in not successful and clear the search textbox (do not use any built-in array methods),
         private void Search(string name)
         {
+            // Search Entry's 1st column by String
             int index = -1;
             for (int i = 1; i < data.GetLength(0); i++)
             {
@@ -137,12 +213,16 @@ namespace Wiki_Project
                 }
             }
 
+            // Checks if data is not empty
             if (index >= 0)
             {
                 textBox1.Text = data[index, 0];
                 textBox2.Text = data[index, 1];
                 textBox3.Text = data[index, 2];
-                textBox4.Text = data[index, 3];
+                DescriptionBox.Text = data[index, 3];
+                listView1.SelectedIndices.Clear();
+                listView1.Items[index].Focused = true;
+                listView1.Items[index].Selected = true;
                 MessageBox.Show("Entry Found!");
             }
             else
@@ -151,17 +231,24 @@ namespace Wiki_Project
             }
         }
 
+        private void Search_Btn_Click(object sender, EventArgs e)
+        {
+            Search(Search_TextBox.Text);
+        }
+
         // Create a display method that will show the following information in a ListView: Name and Category,
         private void Display()
         {
+            // Clear listview for refreshes
             listView1.Clear();
             listView1.View = View.Details;
 
             listView1.Columns.Add("Data Structure", 100);
             listView1.Columns.Add("Category", 100);
             listView1.Columns.Add("Structure", 100);
-            //listView1.Columns.Add("Definition", 100);
+            //listView1.Columns.Add("Definition", 100); //Uncomment to show an additional column
 
+            // Displays all data
             for (int y = 0; y < data.GetLength(0); y++)
             {
                 listView1.Items.Add(data[y, 0]);
@@ -173,9 +260,12 @@ namespace Wiki_Project
         }
 
         // Create a method so the user can select a definition (Name) from the ListView and all the information is displayed in the appropriate Textboxes,
-        private void ShowDetails(string details)
+        private void ShowDetails(string a, string b, string c, string d)
         {
-            DescriptionBox.Text = details;
+            textBox1.Text = a;
+            textBox2.Text = b;
+            textBox3.Text = c;
+            DescriptionBox.Text = d;
         }
 
         // Create a SAVE button so the information from the 2D array can be written into a binary file called definitions.dat which is sorted by Name,
@@ -183,27 +273,35 @@ namespace Wiki_Project
         const string fileName = "definitions.dat";
         private void SaveFile()
         {
-            if (File.Exists(fileName))
+            try
             {
-                File.Delete(fileName);
-            }
-            using (var stream = File.Open(fileName, FileMode.Create))
-            {
-                using (var writer = new BinaryWriter(stream, System.Text.Encoding.UTF8, false))
+                if (File.Exists(fileName))
                 {
-                    for (int y = 0; y < data.GetLength(0); y++)
+                    File.Delete(fileName);
+                }
+                using (var stream = File.Open(fileName, FileMode.Create))
+                {
+                    using (var writer = new BinaryWriter(stream, System.Text.Encoding.UTF8, false))
                     {
-                        if (data[y, 0] != null)
+                        for (int y = 0; y < data.GetLength(0); y++)
                         {
-                            writer.Write(data[y, 0]);
-                            writer.Write(data[y, 1]);
-                            writer.Write(data[y, 2]);
-                            writer.Write(data[y, 3]);
+                            if (data[y, 0] != null)
+                            {
+                                writer.Write(data[y, 0]);
+                                writer.Write(data[y, 1]);
+                                writer.Write(data[y, 2]);
+                                writer.Write(data[y, 3]);
+                            }
                         }
                     }
                 }
+                MessageBox.Show("Data Saved!");
             }
-            MessageBox.Show("Data Saved!");
+            catch (IOException ex)
+            {
+                MessageBox.Show("Data File Error!/n" + ex.Message);
+            }
+
         }
         private void Save_Btn_Click(object sender, EventArgs e)
         {
@@ -214,26 +312,35 @@ namespace Wiki_Project
         // ensure the user has the option to select an alternative file. Use a file stream and BinaryReader to complete this task.
         private void LoadFile(Stream stream, string filepath)
         {
-            int nextEmptyRow = 0;
-            if (!File.Exists(filepath))
+            try
             {
-                return;
-            }
-            using (stream)
-            {
-                using (var reader = new BinaryReader(stream, System.Text.Encoding.UTF8, false))
+                int nextEmptyRow = 0;
+                if (!File.Exists(filepath))
                 {
-                    while (stream.Position < stream.Length)
+                    return;
+                }
+                using (stream)
+                {
+                    using (var reader = new BinaryReader(stream, System.Text.Encoding.UTF8, false))
                     {
-                        data[nextEmptyRow, 0] = reader.ReadString();
-                        data[nextEmptyRow, 1] = reader.ReadString();
-                        data[nextEmptyRow, 2] = reader.ReadString();
-                        data[nextEmptyRow, 3] = reader.ReadString();
-                        nextEmptyRow++;
+                        while (stream.Position < stream.Length)
+                        {
+                            data[nextEmptyRow, 0] = reader.ReadString();
+                            data[nextEmptyRow, 1] = reader.ReadString();
+                            data[nextEmptyRow, 2] = reader.ReadString();
+                            data[nextEmptyRow, 3] = reader.ReadString();
+                            nextEmptyRow++;
+                        }
                     }
                 }
+                Display();
+                MessageBox.Show("Data Loaded!");
             }
-            MessageBox.Show("Data Loaded!");
+            catch (IOException ex)
+            {
+                MessageBox.Show("Data File Error!/n" + ex.Message);
+            }
+
         }
 
         private void Load_Btn_Click(object sender, EventArgs e)

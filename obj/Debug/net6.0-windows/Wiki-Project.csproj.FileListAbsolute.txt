@@ -32,3 +32,4 @@ C:\Users\30082866\Source\Repos\Wiki-Project\obj\Debug\net6.0-windows\refint\Wiki
 C:\Users\30082866\Source\Repos\Wiki-Project\obj\Debug\net6.0-windows\Wiki-Project.pdb
 C:\Users\30082866\Source\Repos\Wiki-Project\obj\Debug\net6.0-windows\Wiki-Project.genruntimeconfig.cache
 C:\Users\30082866\Source\Repos\Wiki-Project\obj\Debug\net6.0-windows\ref\Wiki-Project.dll
+D:\C# Projects\Wiki-Project\obj\Debug\net6.0-windows\Wiki_Project.Properties.Resources.resources
