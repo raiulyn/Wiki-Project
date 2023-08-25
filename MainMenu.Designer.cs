@@ -51,6 +51,7 @@
             this.Search_Btn = new System.Windows.Forms.Button();
             this.Sort_Btn = new System.Windows.Forms.Button();
             this.CreditsLabel = new System.Windows.Forms.Label();
+            this.Clear_Btn = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // Add_Btn
@@ -150,7 +151,7 @@
             this.DescriptionBox.Location = new System.Drawing.Point(21, 189);
             this.DescriptionBox.Multiline = true;
             this.DescriptionBox.Name = "DescriptionBox";
-            this.DescriptionBox.Size = new System.Drawing.Size(262, 241);
+            this.DescriptionBox.Size = new System.Drawing.Size(262, 224);
             this.DescriptionBox.TabIndex = 11;
             // 
             // DataStructureLabel
@@ -232,11 +233,22 @@
             this.CreditsLabel.TabIndex = 19;
             this.CreditsLabel.Text = "By Raymond Lai [Student ID 30082866] Version 25 Aug 2023";
             // 
+            // Clear_Btn
+            // 
+            this.Clear_Btn.Location = new System.Drawing.Point(21, 417);
+            this.Clear_Btn.Name = "Clear_Btn";
+            this.Clear_Btn.Size = new System.Drawing.Size(262, 23);
+            this.Clear_Btn.TabIndex = 20;
+            this.Clear_Btn.Text = "Clear";
+            this.Clear_Btn.UseVisualStyleBackColor = true;
+            this.Clear_Btn.Click += new System.EventHandler(this.Clear_Btn_Click);
+            // 
             // MainMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(816, 527);
+            this.Controls.Add(this.Clear_Btn);
             this.Controls.Add(this.CreditsLabel);
             this.Controls.Add(this.Sort_Btn);
             this.Controls.Add(this.Search_Btn);
@@ -284,5 +296,6 @@
         private Button Search_Btn;
         private Button Sort_Btn;
         private Label CreditsLabel;
+        private Button Clear_Btn;
     }
 }

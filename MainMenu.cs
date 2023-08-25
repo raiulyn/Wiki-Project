@@ -7,6 +7,7 @@ namespace Wiki_Project
             InitializeComponent();
             InitializeData();
             listView1.SelectedIndexChanged += ListView1_SelectedIndexChanged;
+            listView1.MouseDoubleClick += ListView1_MouseDoubleClick;
         }
 
         private void ListView1_SelectedIndexChanged(object? sender, EventArgs e)
@@ -32,18 +33,31 @@ namespace Wiki_Project
         // Create an ADD button that will store the information from the 4 text boxes into the 2D array,
         private void Add_Btn_Click(object sender, EventArgs e)
         {
-            for (int y = 0; y < data.GetLength(0); y++)
+            try
             {
-                if (data[y, 0] == string.Empty || data[y, 0] == null || data[y, 0] == "~")
+                if (textBox1.Text == String.Empty || textBox2.Text == String.Empty || textBox3.Text == String.Empty || DescriptionBox.Text == String.Empty)
                 {
-                    GrabDataFromTextBoxes(y);
-                    break;
+                    MessageBox.Show("Can't add new entry due to incomplete data!");
+                    return;
                 }
+                for (int y = 0; y < data.GetLength(0); y++)
+                {
+                    if (data[y, 0] == string.Empty || data[y, 0] == null || data[y, 0] == "~")
+                    {
+                        GrabDataFromTextBoxes(y);
+                        break;
+                    }
+                }
+                Display();
+                Clear();
+                MessageBox.Show("Data Added!");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error!");
             }
 
-            Display();
-            Clear();
-            MessageBox.Show("Data Added!");
+            
         }
         private void GrabDataFromTextBoxes(int ent)
         {
@@ -56,37 +70,52 @@ namespace Wiki_Project
         // Create an EDIT button that will allow the user to modify any information from the 4 text boxes into the 2D array,
         private void Edit_Btn_Click(object sender, EventArgs e)
         {
-            int ind = listView1.SelectedIndices[0];
-            GrabDataFromTextBoxes(ind);
-            Display();
-            MessageBox.Show("Data Changed!");
+            try
+            {
+                if (listView1.SelectedIndices.Count > 0)
+                {
+                    int ind = listView1.SelectedIndices[0];
+                    GrabDataFromTextBoxes(ind);
+                    Display();
+                    MessageBox.Show("Data Changed!");
+                }
+                else
+                {
+                    MessageBox.Show("No Entry selected!");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error!");
+            }
+
         }
 
         // Create a DELETE button that removes all the information from a single entry of the array; the user must be prompted before the final deletion occurs, 
         private void Delete_Btn_Click(object sender, EventArgs e)
         {
-            var confirmResult = MessageBox.Show("Are you sure?", "Delete", MessageBoxButtons.YesNo);
-            switch (confirmResult)
+            if (listView1.SelectedIndices.Count > 0)
             {
-                case DialogResult.Yes:
-                    if(listView1.SelectedIndices.Count > 0)
-                    {
+                var confirmResult = MessageBox.Show("Are you sure?", "Delete", MessageBoxButtons.YesNo);
+                switch (confirmResult)
+                {
+                    case DialogResult.Yes:
                         DeleteEntry(listView1.SelectedIndices[0]);
                         MoveToEmptyEntries();
                         Display();
-                    }
-                    else
-                    {
-                        MessageBox.Show("No Entry selected!");
-                    }
-                    break;
-                case DialogResult.No:
+                        MessageBox.Show("Data entry deleted!");
+                        break;
+                    case DialogResult.No:
 
-                    break;
-                default:
-                    break;
+                        break;
+                    default:
+                        break;
+                }
             }
-            
+            else
+            {
+                MessageBox.Show("No Entry selected!");
+            }
         }
         private void DeleteEntry(int index)
         {
@@ -94,7 +123,42 @@ namespace Wiki_Project
             data[index, 1] = string.Empty;
             data[index, 2] = string.Empty;
             data[index, 3] = string.Empty;
+            textBox1.Text = string.Empty;
+            textBox2.Text = string.Empty;
+            textBox3.Text = string.Empty;
             DescriptionBox.Text = string.Empty;
+        }
+
+        private void ListView1_MouseDoubleClick(object? sender, MouseEventArgs e)
+        {
+            try
+            {
+                var senderList = (ListView)sender;
+                var clickedItem = senderList.HitTest(e.Location).Item;
+                if (clickedItem != null)
+                {
+                    var confirmResult = MessageBox.Show("Are you sure?", "Delete", MessageBoxButtons.YesNo);
+                    switch (confirmResult)
+                    {
+                        case DialogResult.Yes:
+                            DeleteEntry(listView1.SelectedIndices[0]);
+                            MoveToEmptyEntries();
+                            Display();
+                            MessageBox.Show("Data entry deleted!");
+                            break;
+                        case DialogResult.No:
+
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error!");
+            }
+            
         }
 
         // Create a CLEAR method to clear the four text boxes so a new definition can be added,
@@ -104,6 +168,10 @@ namespace Wiki_Project
             textBox2.Clear();
             textBox3.Clear();
             DescriptionBox.Clear();
+        }
+        private void Clear_Btn_Click(object sender, EventArgs e)
+        {
+            Clear();
         }
 
         // Write the code for a Bubble Sort method to sort the 2D array by Name ascending,
@@ -194,7 +262,14 @@ namespace Wiki_Project
 
         private void Sort_Btn_Click(object sender, EventArgs e)
         {
-            BubbleSort();
+            try
+            {
+                BubbleSort();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error!");
+            }
         }
 
         // Write the code for a Binary Search for the Name in the 2D array and display the information in the other textboxes when found,
@@ -213,7 +288,7 @@ namespace Wiki_Project
                 }
             }
 
-            // Checks if data is not empty
+            // Check if there's a name match
             if (index >= 0)
             {
                 textBox1.Text = data[index, 0];
@@ -233,7 +308,14 @@ namespace Wiki_Project
 
         private void Search_Btn_Click(object sender, EventArgs e)
         {
-            Search(Search_TextBox.Text);
+            try
+            {
+                Search(Search_TextBox.Text);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("No Entries Found!");
+            }
         }
 
         // Create a display method that will show the following information in a ListView: Name and Category,
@@ -270,32 +352,35 @@ namespace Wiki_Project
 
         // Create a SAVE button so the information from the 2D array can be written into a binary file called definitions.dat which is sorted by Name,
         // ensure the user has the option to select an alternative file. Use a file stream and BinaryWriter to create the file.
-        const string fileName = "definitions.dat";
+        const string defaultFileName = "definitions.dat";
         private void SaveFile()
         {
             try
             {
-                if (File.Exists(fileName))
+                SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+                saveFileDialog1.Filter = "dat file|*.dat";
+                saveFileDialog1.Title = "Save an Dat File";
+                saveFileDialog1.ShowDialog();
+                if(saveFileDialog1.FileName != String.Empty)
                 {
-                    File.Delete(fileName);
-                }
-                using (var stream = File.Open(fileName, FileMode.Create))
-                {
-                    using (var writer = new BinaryWriter(stream, System.Text.Encoding.UTF8, false))
+                    using (var stream = File.Open(saveFileDialog1.FileName, FileMode.Create))
                     {
-                        for (int y = 0; y < data.GetLength(0); y++)
+                        using (var writer = new BinaryWriter(stream, System.Text.Encoding.UTF8, false))
                         {
-                            if (data[y, 0] != null)
+                            for (int y = 0; y < data.GetLength(0); y++)
                             {
-                                writer.Write(data[y, 0]);
-                                writer.Write(data[y, 1]);
-                                writer.Write(data[y, 2]);
-                                writer.Write(data[y, 3]);
+                                if (data[y, 0] != null)
+                                {
+                                    writer.Write(data[y, 0]);
+                                    writer.Write(data[y, 1]);
+                                    writer.Write(data[y, 2]);
+                                    writer.Write(data[y, 3]);
+                                }
                             }
                         }
                     }
+                    MessageBox.Show("Data Saved!");
                 }
-                MessageBox.Show("Data Saved!");
             }
             catch (IOException ex)
             {
@@ -363,10 +448,6 @@ namespace Wiki_Project
         // All methods must utilise the appropriate Dialog Boxes, Message Boxes, etc to ensure fully user functionality.
         // Map the programming criteria (9.1 - 9.11) and features to your code/methods by adding comments above the method signatures.
         // Ensure your code is compliant with the CITEMS coding standards (refer http://www.citems.com.au/).
-
-
-
-
 
     }
 }
