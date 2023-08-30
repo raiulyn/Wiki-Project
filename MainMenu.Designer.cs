@@ -28,10 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem("1");
-            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem("2");
-            System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem("3");
-            System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem("4");
+            System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem("1");
+            System.Windows.Forms.ListViewItem listViewItem6 = new System.Windows.Forms.ListViewItem("2");
+            System.Windows.Forms.ListViewItem listViewItem7 = new System.Windows.Forms.ListViewItem("3");
+            System.Windows.Forms.ListViewItem listViewItem8 = new System.Windows.Forms.ListViewItem("4");
             this.Add_Btn = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
@@ -56,7 +56,7 @@
             // 
             // Add_Btn
             // 
-            this.Add_Btn.Location = new System.Drawing.Point(173, 38);
+            this.Add_Btn.Location = new System.Drawing.Point(208, 38);
             this.Add_Btn.Name = "Add_Btn";
             this.Add_Btn.Size = new System.Drawing.Size(75, 23);
             this.Add_Btn.TabIndex = 0;
@@ -68,26 +68,26 @@
             // 
             this.textBox1.Location = new System.Drawing.Point(33, 38);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 23);
+            this.textBox1.Size = new System.Drawing.Size(169, 23);
             this.textBox1.TabIndex = 1;
             // 
             // textBox2
             // 
             this.textBox2.Location = new System.Drawing.Point(33, 86);
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(100, 23);
+            this.textBox2.Size = new System.Drawing.Size(169, 23);
             this.textBox2.TabIndex = 2;
             // 
             // textBox3
             // 
             this.textBox3.Location = new System.Drawing.Point(33, 135);
             this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(100, 23);
+            this.textBox3.Size = new System.Drawing.Size(169, 23);
             this.textBox3.TabIndex = 3;
             // 
             // Edit_Btn
             // 
-            this.Edit_Btn.Location = new System.Drawing.Point(173, 86);
+            this.Edit_Btn.Location = new System.Drawing.Point(208, 86);
             this.Edit_Btn.Name = "Edit_Btn";
             this.Edit_Btn.Size = new System.Drawing.Size(75, 23);
             this.Edit_Btn.TabIndex = 5;
@@ -98,7 +98,7 @@
             // Delete_Btn
             // 
             this.Delete_Btn.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.Delete_Btn.Location = new System.Drawing.Point(173, 135);
+            this.Delete_Btn.Location = new System.Drawing.Point(208, 135);
             this.Delete_Btn.Name = "Delete_Btn";
             this.Delete_Btn.Size = new System.Drawing.Size(75, 23);
             this.Delete_Btn.TabIndex = 6;
@@ -116,10 +116,10 @@
             // listView1
             // 
             this.listView1.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem1,
-            listViewItem2,
-            listViewItem3,
-            listViewItem4});
+            listViewItem5,
+            listViewItem6,
+            listViewItem7,
+            listViewItem8});
             this.listView1.Location = new System.Drawing.Point(301, 58);
             this.listView1.Name = "listView1";
             this.listView1.Size = new System.Drawing.Size(503, 411);
@@ -231,7 +231,7 @@
             this.CreditsLabel.Name = "CreditsLabel";
             this.CreditsLabel.Size = new System.Drawing.Size(317, 15);
             this.CreditsLabel.TabIndex = 19;
-            this.CreditsLabel.Text = "By Raymond Lai [Student ID 30082866] Version 25 Aug 2023";
+            this.CreditsLabel.Text = "By Raymond Lai [Student ID 30082866] Version 30 Aug 2023";
             // 
             // Clear_Btn
             // 

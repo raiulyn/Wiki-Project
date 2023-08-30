@@ -134,8 +134,8 @@ namespace Wiki_Project
             try
             {
                 var senderList = (ListView)sender;
-                var clickedItem = senderList.HitTest(e.Location).Item;
-                if (clickedItem != null)
+                var clickedItem = senderList?.HitTest(e.Location).Item;
+                if (clickedItem != null && clickedItem.Text != String.Empty)
                 {
                     var confirmResult = MessageBox.Show("Are you sure?", "Delete", MessageBoxButtons.YesNo);
                     switch (confirmResult)
@@ -278,9 +278,9 @@ namespace Wiki_Project
         {
             // Search Entry's 1st column by String
             int index = -1;
-            for (int i = 1; i < data.GetLength(0); i++)
+            for (int i = 0; i < data.GetLength(0); i++)
             {
-                if (data[i, 0] == name)
+                if (data[i, 0].ToLower().Contains(name.ToLower()))
                 {
                     index = i;
                     Search_TextBox.Clear();
