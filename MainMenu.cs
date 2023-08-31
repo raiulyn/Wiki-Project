@@ -6,21 +6,21 @@ namespace Wiki_Project
         {
             InitializeComponent();
             InitializeData();
-            listView1.SelectedIndexChanged += ListView1_SelectedIndexChanged;
-            listView1.MouseDoubleClick += ListView1_MouseDoubleClick;
+            dataView.SelectedIndexChanged += ListView1_SelectedIndexChanged;
+            dataView.MouseDoubleClick += ListView1_MouseDoubleClick;
         }
 
         private void ListView1_SelectedIndexChanged(object? sender, EventArgs e)
         {
-            if (listView1.SelectedIndices.Count > 0)
+            if (dataView.SelectedIndices.Count > 0)
             {
-                int ind = listView1.SelectedIndices[0];
+                int ind = dataView.SelectedIndices[0];
                 ShowDetails(data[ind, 0], data[ind, 1], data[ind, 2], data[ind, 3]);
             }
         }
 
         // Create a global 2D string array, use static variables for the dimensions (row = 12, column = 4),
-        public string[,] data;
+        public static string[,] data;
         public int rows = 12;
         public int columns = 4;
 
@@ -35,7 +35,7 @@ namespace Wiki_Project
         {
             try
             {
-                if (textBox1.Text == String.Empty || textBox2.Text == String.Empty || textBox3.Text == String.Empty || DescriptionBox.Text == String.Empty)
+                if (nameBox.Text == String.Empty || categoryBox.Text == String.Empty || structureBox.Text == String.Empty || descriptionBox.Text == String.Empty)
                 {
                     MessageBox.Show("Can't add new entry due to incomplete data!");
                     return;
@@ -61,10 +61,10 @@ namespace Wiki_Project
         }
         private void GrabDataFromTextBoxes(int ent)
         {
-            data[ent, 0] = textBox1.Text;
-            data[ent, 1] = textBox2.Text;
-            data[ent, 2] = textBox3.Text;
-            data[ent, 3] = DescriptionBox.Text;
+            data[ent, 0] = nameBox.Text;
+            data[ent, 1] = categoryBox.Text;
+            data[ent, 2] = structureBox.Text;
+            data[ent, 3] = descriptionBox.Text;
         }
 
         // Create an EDIT button that will allow the user to modify any information from the 4 text boxes into the 2D array,
@@ -72,9 +72,9 @@ namespace Wiki_Project
         {
             try
             {
-                if (listView1.SelectedIndices.Count > 0)
+                if (dataView.SelectedIndices.Count > 0)
                 {
-                    int ind = listView1.SelectedIndices[0];
+                    int ind = dataView.SelectedIndices[0];
                     GrabDataFromTextBoxes(ind);
                     Display();
                     MessageBox.Show("Data Changed!");
@@ -94,13 +94,13 @@ namespace Wiki_Project
         // Create a DELETE button that removes all the information from a single entry of the array; the user must be prompted before the final deletion occurs, 
         private void Delete_Btn_Click(object sender, EventArgs e)
         {
-            if (listView1.SelectedIndices.Count > 0)
+            if (dataView.SelectedIndices.Count > 0)
             {
                 var confirmResult = MessageBox.Show("Are you sure?", "Delete", MessageBoxButtons.YesNo);
                 switch (confirmResult)
                 {
                     case DialogResult.Yes:
-                        DeleteEntry(listView1.SelectedIndices[0]);
+                        DeleteEntry(dataView.SelectedIndices[0]);
                         MoveToEmptyEntries();
                         Display();
                         MessageBox.Show("Data entry deleted!");
@@ -123,10 +123,10 @@ namespace Wiki_Project
             data[index, 1] = string.Empty;
             data[index, 2] = string.Empty;
             data[index, 3] = string.Empty;
-            textBox1.Text = string.Empty;
-            textBox2.Text = string.Empty;
-            textBox3.Text = string.Empty;
-            DescriptionBox.Text = string.Empty;
+            nameBox.Text = string.Empty;
+            categoryBox.Text = string.Empty;
+            structureBox.Text = string.Empty;
+            descriptionBox.Text = string.Empty;
         }
 
         private void ListView1_MouseDoubleClick(object? sender, MouseEventArgs e)
@@ -141,7 +141,7 @@ namespace Wiki_Project
                     switch (confirmResult)
                     {
                         case DialogResult.Yes:
-                            DeleteEntry(listView1.SelectedIndices[0]);
+                            DeleteEntry(dataView.SelectedIndices[0]);
                             MoveToEmptyEntries();
                             Display();
                             MessageBox.Show("Data entry deleted!");
@@ -164,10 +164,10 @@ namespace Wiki_Project
         // Create a CLEAR method to clear the four text boxes so a new definition can be added,
         private void Clear()
         {
-            textBox1.Clear();
-            textBox2.Clear();
-            textBox3.Clear();
-            DescriptionBox.Clear();
+            nameBox.Clear();
+            categoryBox.Clear();
+            structureBox.Clear();
+            descriptionBox.Clear();
         }
         private void Clear_Btn_Click(object sender, EventArgs e)
         {
@@ -176,18 +176,24 @@ namespace Wiki_Project
 
         // Write the code for a Bubble Sort method to sort the 2D array by Name ascending,
         // ensure you use a separate swap method that passes the array element to be swapped (do not use any built-in array methods),
-        private void BubbleSort()
+        private string[,] BubbleSort()
         {
-            TurnEmptyEntriesToSymbol();
-            for (int y = 0; y < data.GetLength(0) - 1; y++)
+
+            // Terrible fix to do complete sorts. Do not do this!
+            string[,] temp = data;
+            for (int i = 0; i < rows; i++)
             {
-                if (String.Compare(data[y, 0], data[y + 1, 0], true) > 0)
+                TurnEmptyEntriesToSymbol();
+                for (int y = 0; y < temp.GetLength(0) - 1; y++)
                 {
-                    Swap(y, y + 1);
+                    if (String.Compare(temp[y, 0], temp[y + 1, 0], true) > 0)
+                    {
+                        Swap(y, y + 1);
+                    }
                 }
             }
             MoveToEmptyEntries();
-            Display();
+            return temp;
         }
         private void Swap(int index1, int index2)
         {
@@ -264,7 +270,8 @@ namespace Wiki_Project
         {
             try
             {
-                BubbleSort();
+                data = BubbleSort();
+                Display();
             }
             catch (Exception ex)
             {
@@ -276,41 +283,53 @@ namespace Wiki_Project
         // add suitable feedback if the search in not successful and clear the search textbox (do not use any built-in array methods),
         private void Search(string name)
         {
-            // Search Entry's 1st column by String
-            int index = -1;
-            for (int i = 0; i < data.GetLength(0); i++)
+            try
             {
-                if (data[i, 0].ToLower().Contains(name.ToLower()))
+                int min = 0;
+                int max = data.GetLength(0) - 1;
+                while (min <= max)
                 {
-                    index = i;
-                    Search_TextBox.Clear();
-                    break;
+                    int middle = (min + max) / 2;
+                    int comparison = data[middle, 0].ToLower().CompareTo(name.ToLower());
+                    if (comparison == 0)
+                    {
+                        nameBox.Text = data[middle, 0];
+                        categoryBox.Text = data[middle, 1];
+                        structureBox.Text = data[middle, 2];
+                        descriptionBox.Text = data[middle, 3];
+                        dataView.SelectedIndices.Clear();
+                        dataView.Items[middle].Focused = true;
+                        dataView.Items[middle].Selected = true;
+                        MessageBox.Show("Entry Found!");
+                        break;
+                    }
+                    else if (comparison < 0)
+                    {
+                        min = middle + 1;
+                    }
+                    else
+                    {
+                        max = middle - 1;
+                    }
                 }
-            }
-
-            // Check if there's a name match
-            if (index >= 0)
-            {
-                textBox1.Text = data[index, 0];
-                textBox2.Text = data[index, 1];
-                textBox3.Text = data[index, 2];
-                DescriptionBox.Text = data[index, 3];
-                listView1.SelectedIndices.Clear();
-                listView1.Items[index].Focused = true;
-                listView1.Items[index].Selected = true;
-                MessageBox.Show("Entry Found!");
-            }
-            else
+                if(min > max)
+                {
+                    MessageBox.Show("No Entries Found!");
+                }
+            } 
+            catch(Exception ex)
             {
                 MessageBox.Show("No Entries Found!");
             }
+            
+            
         }
 
         private void Search_Btn_Click(object sender, EventArgs e)
         {
             try
             {
-                Search(Search_TextBox.Text);
+                Search(searchBox.Text);
             }
             catch (Exception ex)
             {
@@ -322,21 +341,21 @@ namespace Wiki_Project
         private void Display()
         {
             // Clear listview for refreshes
-            listView1.Clear();
-            listView1.View = View.Details;
+            dataView.Clear();
+            dataView.View = View.Details;
 
-            listView1.Columns.Add("Data Structure", 100);
-            listView1.Columns.Add("Category", 100);
-            listView1.Columns.Add("Structure", 100);
+            dataView.Columns.Add("Data Structure", 100);
+            dataView.Columns.Add("Category", 100);
+            dataView.Columns.Add("Structure", 100);
             //listView1.Columns.Add("Definition", 100); //Uncomment to show an additional column
 
             // Displays all data
             for (int y = 0; y < data.GetLength(0); y++)
             {
-                listView1.Items.Add(data[y, 0]);
-                listView1.Items[y].SubItems.Add(data[y, 1]);
-                listView1.Items[y].SubItems.Add(data[y, 2]);
-                listView1.Items[y].SubItems.Add(data[y, 3]);
+                dataView.Items.Add(data[y, 0]);
+                dataView.Items[y].SubItems.Add(data[y, 1]);
+                dataView.Items[y].SubItems.Add(data[y, 2]);
+                dataView.Items[y].SubItems.Add(data[y, 3]);
             }
 
         }
@@ -344,10 +363,10 @@ namespace Wiki_Project
         // Create a method so the user can select a definition (Name) from the ListView and all the information is displayed in the appropriate Textboxes,
         private void ShowDetails(string a, string b, string c, string d)
         {
-            textBox1.Text = a;
-            textBox2.Text = b;
-            textBox3.Text = c;
-            DescriptionBox.Text = d;
+            nameBox.Text = a;
+            categoryBox.Text = b;
+            structureBox.Text = c;
+            descriptionBox.Text = d;
         }
 
         // Create a SAVE button so the information from the 2D array can be written into a binary file called definitions.dat which is sorted by Name,

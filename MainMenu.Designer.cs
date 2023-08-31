@@ -33,16 +33,16 @@
             System.Windows.Forms.ListViewItem listViewItem7 = new System.Windows.Forms.ListViewItem("3");
             System.Windows.Forms.ListViewItem listViewItem8 = new System.Windows.Forms.ListViewItem("4");
             this.Add_Btn = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.nameBox = new System.Windows.Forms.TextBox();
+            this.categoryBox = new System.Windows.Forms.TextBox();
+            this.structureBox = new System.Windows.Forms.TextBox();
             this.Edit_Btn = new System.Windows.Forms.Button();
             this.Delete_Btn = new System.Windows.Forms.Button();
-            this.Search_TextBox = new System.Windows.Forms.TextBox();
-            this.listView1 = new System.Windows.Forms.ListView();
+            this.searchBox = new System.Windows.Forms.TextBox();
+            this.dataView = new System.Windows.Forms.ListView();
             this.Save_Btn = new System.Windows.Forms.Button();
             this.Load_Btn = new System.Windows.Forms.Button();
-            this.DescriptionBox = new System.Windows.Forms.TextBox();
+            this.descriptionBox = new System.Windows.Forms.TextBox();
             this.DataStructureLabel = new System.Windows.Forms.Label();
             this.CategoryLabel = new System.Windows.Forms.Label();
             this.StructureLabel = new System.Windows.Forms.Label();
@@ -64,26 +64,26 @@
             this.Add_Btn.UseVisualStyleBackColor = true;
             this.Add_Btn.Click += new System.EventHandler(this.Add_Btn_Click);
             // 
-            // textBox1
+            // nameBox
             // 
-            this.textBox1.Location = new System.Drawing.Point(33, 38);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(169, 23);
-            this.textBox1.TabIndex = 1;
+            this.nameBox.Location = new System.Drawing.Point(33, 38);
+            this.nameBox.Name = "nameBox";
+            this.nameBox.Size = new System.Drawing.Size(169, 23);
+            this.nameBox.TabIndex = 1;
             // 
-            // textBox2
+            // categoryBox
             // 
-            this.textBox2.Location = new System.Drawing.Point(33, 86);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(169, 23);
-            this.textBox2.TabIndex = 2;
+            this.categoryBox.Location = new System.Drawing.Point(33, 86);
+            this.categoryBox.Name = "categoryBox";
+            this.categoryBox.Size = new System.Drawing.Size(169, 23);
+            this.categoryBox.TabIndex = 2;
             // 
-            // textBox3
+            // structureBox
             // 
-            this.textBox3.Location = new System.Drawing.Point(33, 135);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(169, 23);
-            this.textBox3.TabIndex = 3;
+            this.structureBox.Location = new System.Drawing.Point(33, 135);
+            this.structureBox.Name = "structureBox";
+            this.structureBox.Size = new System.Drawing.Size(169, 23);
+            this.structureBox.TabIndex = 3;
             // 
             // Edit_Btn
             // 
@@ -106,25 +106,25 @@
             this.Delete_Btn.UseVisualStyleBackColor = false;
             this.Delete_Btn.Click += new System.EventHandler(this.Delete_Btn_Click);
             // 
-            // Search_TextBox
+            // searchBox
             // 
-            this.Search_TextBox.Location = new System.Drawing.Point(301, 29);
-            this.Search_TextBox.Name = "Search_TextBox";
-            this.Search_TextBox.Size = new System.Drawing.Size(345, 23);
-            this.Search_TextBox.TabIndex = 7;
+            this.searchBox.Location = new System.Drawing.Point(301, 29);
+            this.searchBox.Name = "searchBox";
+            this.searchBox.Size = new System.Drawing.Size(345, 23);
+            this.searchBox.TabIndex = 7;
             // 
-            // listView1
+            // dataView
             // 
-            this.listView1.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
+            this.dataView.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
             listViewItem5,
             listViewItem6,
             listViewItem7,
             listViewItem8});
-            this.listView1.Location = new System.Drawing.Point(301, 58);
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(503, 411);
-            this.listView1.TabIndex = 8;
-            this.listView1.UseCompatibleStateImageBehavior = false;
+            this.dataView.Location = new System.Drawing.Point(301, 58);
+            this.dataView.Name = "dataView";
+            this.dataView.Size = new System.Drawing.Size(503, 411);
+            this.dataView.TabIndex = 8;
+            this.dataView.UseCompatibleStateImageBehavior = false;
             // 
             // Save_Btn
             // 
@@ -146,13 +146,13 @@
             this.Load_Btn.UseVisualStyleBackColor = true;
             this.Load_Btn.Click += new System.EventHandler(this.Load_Btn_Click);
             // 
-            // DescriptionBox
+            // descriptionBox
             // 
-            this.DescriptionBox.Location = new System.Drawing.Point(21, 189);
-            this.DescriptionBox.Multiline = true;
-            this.DescriptionBox.Name = "DescriptionBox";
-            this.DescriptionBox.Size = new System.Drawing.Size(262, 224);
-            this.DescriptionBox.TabIndex = 11;
+            this.descriptionBox.Location = new System.Drawing.Point(21, 189);
+            this.descriptionBox.Multiline = true;
+            this.descriptionBox.Name = "descriptionBox";
+            this.descriptionBox.Size = new System.Drawing.Size(262, 224);
+            this.descriptionBox.TabIndex = 11;
             // 
             // DataStructureLabel
             // 
@@ -257,16 +257,16 @@
             this.Controls.Add(this.StructureLabel);
             this.Controls.Add(this.CategoryLabel);
             this.Controls.Add(this.DataStructureLabel);
-            this.Controls.Add(this.DescriptionBox);
+            this.Controls.Add(this.descriptionBox);
             this.Controls.Add(this.Load_Btn);
             this.Controls.Add(this.Save_Btn);
-            this.Controls.Add(this.listView1);
-            this.Controls.Add(this.Search_TextBox);
+            this.Controls.Add(this.dataView);
+            this.Controls.Add(this.searchBox);
             this.Controls.Add(this.Delete_Btn);
             this.Controls.Add(this.Edit_Btn);
-            this.Controls.Add(this.textBox3);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.structureBox);
+            this.Controls.Add(this.categoryBox);
+            this.Controls.Add(this.nameBox);
             this.Controls.Add(this.Add_Btn);
             this.Name = "MainMenu";
             this.Text = "Wiki Project";
@@ -278,16 +278,16 @@
         #endregion
 
         private Button Add_Btn;
-        private TextBox textBox1;
-        private TextBox textBox2;
-        private TextBox textBox3;
+        private TextBox nameBox;
+        private TextBox categoryBox;
+        private TextBox structureBox;
         private Button Edit_Btn;
         private Button Delete_Btn;
-        private TextBox Search_TextBox;
-        private ListView listView1;
+        private TextBox searchBox;
+        private ListView dataView;
         private Button Save_Btn;
         private Button Load_Btn;
-        private TextBox DescriptionBox;
+        private TextBox descriptionBox;
         private Label DataStructureLabel;
         private Label CategoryLabel;
         private Label StructureLabel;
