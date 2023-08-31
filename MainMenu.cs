@@ -35,9 +35,14 @@ namespace Wiki_Project
         {
             try
             {
-                if (nameBox.Text == String.Empty || categoryBox.Text == String.Empty || structureBox.Text == String.Empty || descriptionBox.Text == String.Empty)
+                if (nameBox.Text == string.Empty || categoryBox.Text == string.Empty || structureBox.Text == string.Empty || descriptionBox.Text == string.Empty)
                 {
                     MessageBox.Show("Can't add new entry due to incomplete data!");
+                    return;
+                }
+                if(!string.IsNullOrEmpty(data[rows - 1, 0]))
+                {
+                    MessageBox.Show("Insufficient space");
                     return;
                 }
                 for (int y = 0; y < data.GetLength(0); y++)
@@ -45,16 +50,18 @@ namespace Wiki_Project
                     if (data[y, 0] == string.Empty || data[y, 0] == null || data[y, 0] == "~")
                     {
                         GrabDataFromTextBoxes(y);
+                        Display();
+                        Clear();
+                        MessageBox.Show("Data Added!");
                         break;
                     }
+                    
                 }
-                Display();
-                Clear();
-                MessageBox.Show("Data Added!");
+                
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error!");
+                MessageBox.Show(ex.Message);
             }
 
             
@@ -181,9 +188,9 @@ namespace Wiki_Project
 
             // Terrible fix to do complete sorts. Do not do this!
             string[,] temp = data;
+            TurnEmptyEntriesToSymbol();
             for (int i = 0; i < rows; i++)
             {
-                TurnEmptyEntriesToSymbol();
                 for (int y = 0; y < temp.GetLength(0) - 1; y++)
                 {
                     if (String.Compare(temp[y, 0], temp[y + 1, 0], true) > 0)
@@ -192,7 +199,8 @@ namespace Wiki_Project
                     }
                 }
             }
-            MoveToEmptyEntries();
+            RemoveAllSymbols();
+            temp = MoveToEmptyEntries(temp);
             return temp;
         }
         private void Swap(int index1, int index2)
@@ -215,7 +223,6 @@ namespace Wiki_Project
         }
         private void MoveToEmptyEntries()
         {
-            // Moves all available data to temp
             int counter = 0;
             string[,] temp = new string[rows, columns];
             for (int y = 0; y < data.GetLength(0); y++)
@@ -238,6 +245,23 @@ namespace Wiki_Project
                 data[y, 2] = temp[y, 2];
                 data[y, 3] = temp[y, 3];
             }
+        }
+        private string[,] MoveToEmptyEntries(string[,] dat)
+        {
+            int counter = 0;
+            string[,] temp = new string[rows, columns];
+            for (int y = 0; y < dat.GetLength(0); y++)
+            {
+                if (dat[y, 0] != String.Empty && dat[y, 0] != "~")
+                {
+                    temp[counter, 0] = dat[y, 0];
+                    temp[counter, 1] = dat[y, 1];
+                    temp[counter, 2] = dat[y, 2];
+                    temp[counter, 3] = dat[y, 3];
+                    counter++;
+                }
+            }
+            return temp;
         }
         private void TurnEmptyEntriesToSymbol()
         {
@@ -283,8 +307,13 @@ namespace Wiki_Project
         // add suitable feedback if the search in not successful and clear the search textbox (do not use any built-in array methods),
         private void Search(string name)
         {
+            if(name == String.Empty || name == null)
+            {
+                return;
+            }
             try
             {
+                TurnEmptyEntriesToSymbol();
                 int min = 0;
                 int max = data.GetLength(0) - 1;
                 while (min <= max)
@@ -297,9 +326,9 @@ namespace Wiki_Project
                         categoryBox.Text = data[middle, 1];
                         structureBox.Text = data[middle, 2];
                         descriptionBox.Text = data[middle, 3];
-                        dataView.SelectedIndices.Clear();
-                        dataView.Items[middle].Focused = true;
                         dataView.Items[middle].Selected = true;
+                        dataView.Items[middle].Focused = true;
+                        searchBox.Text = String.Empty;
                         MessageBox.Show("Entry Found!");
                         break;
                     }
@@ -314,12 +343,14 @@ namespace Wiki_Project
                 }
                 if(min > max)
                 {
+                    Clear();
+                    dataView.SelectedItems.Clear();
                     MessageBox.Show("No Entries Found!");
                 }
             } 
-            catch(Exception ex)
+            catch (NullReferenceException ex)
             {
-                MessageBox.Show("No Entries Found!");
+                MessageBox.Show(ex.Message);
             }
             
             
@@ -427,6 +458,7 @@ namespace Wiki_Project
                 {
                     using (var reader = new BinaryReader(stream, System.Text.Encoding.UTF8, false))
                     {
+                        data = new string[rows, columns];
                         while (stream.Position < stream.Length)
                         {
                             data[nextEmptyRow, 0] = reader.ReadString();
@@ -437,6 +469,7 @@ namespace Wiki_Project
                         }
                     }
                 }
+                Clear();
                 Display();
                 MessageBox.Show("Data Loaded!");
             }

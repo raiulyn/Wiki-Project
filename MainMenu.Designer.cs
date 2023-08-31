@@ -28,10 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem("1");
-            System.Windows.Forms.ListViewItem listViewItem6 = new System.Windows.Forms.ListViewItem("2");
-            System.Windows.Forms.ListViewItem listViewItem7 = new System.Windows.Forms.ListViewItem("3");
-            System.Windows.Forms.ListViewItem listViewItem8 = new System.Windows.Forms.ListViewItem("4");
+            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem("1");
+            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem("2");
+            System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem("3");
+            System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem("4");
             this.Add_Btn = new System.Windows.Forms.Button();
             this.nameBox = new System.Windows.Forms.TextBox();
             this.categoryBox = new System.Windows.Forms.TextBox();
@@ -116,10 +116,10 @@
             // dataView
             // 
             this.dataView.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem5,
-            listViewItem6,
-            listViewItem7,
-            listViewItem8});
+            listViewItem1,
+            listViewItem2,
+            listViewItem3,
+            listViewItem4});
             this.dataView.Location = new System.Drawing.Point(301, 58);
             this.dataView.Name = "dataView";
             this.dataView.Size = new System.Drawing.Size(503, 411);
@@ -231,7 +231,7 @@
             this.CreditsLabel.Name = "CreditsLabel";
             this.CreditsLabel.Size = new System.Drawing.Size(317, 15);
             this.CreditsLabel.TabIndex = 19;
-            this.CreditsLabel.Text = "By Raymond Lai [Student ID 30082866] Version 30 Aug 2023";
+            this.CreditsLabel.Text = "By Raymond Lai [Student ID 30082866] Version 31 Aug 2023";
             // 
             // Clear_Btn
             // 
