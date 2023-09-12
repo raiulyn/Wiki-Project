@@ -10,6 +10,17 @@ namespace Wiki_Project
             dataView.MouseDoubleClick += ListView1_MouseDoubleClick;
         }
 
+        // Create a global 2D string array, use static variables for the dimensions (row = 12, column = 4),
+        public static string[,] data = new string[0, 0];
+        public int rows = 12;
+        public int columns = 4;
+
+        private void InitializeData()
+        {
+            data = new string[rows, columns];
+            Display();
+        }
+
         private void ListView1_SelectedIndexChanged(object? sender, EventArgs e)
         {
             if (dataView.SelectedIndices.Count > 0)
@@ -18,16 +29,36 @@ namespace Wiki_Project
                 ShowDetails(data[ind, 0], data[ind, 1], data[ind, 2], data[ind, 3]);
             }
         }
-
-        // Create a global 2D string array, use static variables for the dimensions (row = 12, column = 4),
-        public static string[,] data;
-        public int rows = 12;
-        public int columns = 4;
-
-        private void InitializeData()
+        private void ListView1_MouseDoubleClick(object? sender, MouseEventArgs e)
         {
-            data = new string[rows, columns];
-            Display();
+            try
+            {
+                var senderList = (ListView)sender;
+                var clickedItem = senderList?.HitTest(e.Location).Item;
+                if (clickedItem != null && clickedItem.Text != String.Empty)
+                {
+                    var confirmResult = MessageBox.Show("Are you sure?", "Delete", MessageBoxButtons.YesNo);
+                    switch (confirmResult)
+                    {
+                        case DialogResult.Yes:
+                            DeleteEntry(dataView.SelectedIndices[0]);
+                            MoveToEmptyEntries();
+                            Display();
+                            MessageBox.Show("Data entry deleted!");
+                            break;
+                        case DialogResult.No:
+
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error!");
+            }
+
         }
 
         // Create an ADD button that will store the information from the 4 text boxes into the 2D array,
@@ -40,7 +71,7 @@ namespace Wiki_Project
                     MessageBox.Show("Can't add new entry due to incomplete data!");
                     return;
                 }
-                if(!string.IsNullOrEmpty(data[rows - 1, 0]))
+                if (!string.IsNullOrEmpty(data[rows - 1, 0]))
                 {
                     MessageBox.Show("Insufficient space");
                     return;
@@ -55,16 +86,16 @@ namespace Wiki_Project
                         MessageBox.Show("Data Added!");
                         break;
                     }
-                    
+
                 }
-                
+
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
 
-            
+
         }
         private void GrabDataFromTextBoxes(int ent)
         {
@@ -136,38 +167,6 @@ namespace Wiki_Project
             descriptionBox.Text = string.Empty;
         }
 
-        private void ListView1_MouseDoubleClick(object? sender, MouseEventArgs e)
-        {
-            try
-            {
-                var senderList = (ListView)sender;
-                var clickedItem = senderList?.HitTest(e.Location).Item;
-                if (clickedItem != null && clickedItem.Text != String.Empty)
-                {
-                    var confirmResult = MessageBox.Show("Are you sure?", "Delete", MessageBoxButtons.YesNo);
-                    switch (confirmResult)
-                    {
-                        case DialogResult.Yes:
-                            DeleteEntry(dataView.SelectedIndices[0]);
-                            MoveToEmptyEntries();
-                            Display();
-                            MessageBox.Show("Data entry deleted!");
-                            break;
-                        case DialogResult.No:
-
-                            break;
-                        default:
-                            break;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error!");
-            }
-            
-        }
-
         // Create a CLEAR method to clear the four text boxes so a new definition can be added,
         private void Clear()
         {
@@ -185,11 +184,9 @@ namespace Wiki_Project
         // ensure you use a separate swap method that passes the array element to be swapped (do not use any built-in array methods),
         private string[,] BubbleSort()
         {
-
-            // Terrible fix to do complete sorts. Do not do this!
             string[,] temp = data;
             TurnEmptyEntriesToSymbol();
-            for (int i = 0; i < rows; i++)
+            for (int i = 0; i < rows; i++) // Terrible fix to do complete sorts. Do not do this!
             {
                 for (int y = 0; y < temp.GetLength(0) - 1; y++)
                 {
@@ -289,7 +286,6 @@ namespace Wiki_Project
                 }
             }
         }
-
         private void Sort_Btn_Click(object sender, EventArgs e)
         {
             try
@@ -307,13 +303,16 @@ namespace Wiki_Project
         // add suitable feedback if the search in not successful and clear the search textbox (do not use any built-in array methods),
         private void Search(string name)
         {
-            if(name == String.Empty || name == null)
+            if (name == String.Empty || name == null)
             {
                 return;
             }
             try
             {
-                TurnEmptyEntriesToSymbol();
+                // Sort before doing the search
+                data = BubbleSort();
+                Display();
+
                 int min = 0;
                 int max = data.GetLength(0) - 1;
                 while (min <= max)
@@ -341,21 +340,20 @@ namespace Wiki_Project
                         max = middle - 1;
                     }
                 }
-                if(min > max)
+                if (min > max)
                 {
                     Clear();
                     dataView.SelectedItems.Clear();
                     MessageBox.Show("No Entries Found!");
                 }
-            } 
+            }
             catch (NullReferenceException ex)
             {
                 MessageBox.Show(ex.Message);
             }
-            
-            
-        }
 
+
+        }
         private void Search_Btn_Click(object sender, EventArgs e)
         {
             try
@@ -405,13 +403,20 @@ namespace Wiki_Project
         const string defaultFileName = "definitions.dat";
         private void SaveFile()
         {
+            for (int i = 0; i < data.GetLength(0); i++)
+            {
+                if (data[i, 0] == null || data[i, 0] == string.Empty || data[i, 0] == "~")
+                {
+                    return;
+                }
+            }
             try
             {
                 SaveFileDialog saveFileDialog1 = new SaveFileDialog();
                 saveFileDialog1.Filter = "dat file|*.dat";
                 saveFileDialog1.Title = "Save an Dat File";
                 saveFileDialog1.ShowDialog();
-                if(saveFileDialog1.FileName != String.Empty)
+                if (saveFileDialog1.FileName != String.Empty)
                 {
                     using (var stream = File.Open(saveFileDialog1.FileName, FileMode.Create))
                     {
@@ -479,7 +484,6 @@ namespace Wiki_Project
             }
 
         }
-
         private void Load_Btn_Click(object sender, EventArgs e)
         {
             using (OpenFileDialog openFileDialog = new OpenFileDialog())
