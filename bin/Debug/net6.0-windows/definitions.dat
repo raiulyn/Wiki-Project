@@ -1,8 +1,0 @@
-ArrayArrayLinearbA structure representing a fixed length ordered collection of values or objects with the same typeTwo Dimension ArrayArrayLinearqA data structure consisting of cells arranged in a two-dimensional grid, much like a table with rows and columns.ListListLinear&A collection of strongly typed objectsLinked listListLinearîA linear data structure which stores element in the non-contiguous location. The elements in a linked list are linked with each other using pointersSelf-Balance TreeTree
-Non-LinearúHeight-balanced binary search trees that automatically keep the height as small as possible when insertion and deletion operations are performed on the treeHeapTree
-Non-Linear¶The heap is a region of memory that is used to store objects. It is called a ‚Äúheap‚Äù because it is not organized in a particular order and can be accessed randomlyBinary Search TreeTree
-Non-LinearúHeight-balanced binary search trees that automatically keep the height as small as possible when insertion and deletion operations are performed on the treeGraphGraphs
-Non-Linear]A graph comprises a finite number of vertices (or nodes) and a set of Edges that connect themSetAbstract
-Non-LinearhA set is a collection that contains no duplicate elements, and whose elements are in no particular orderQueueAbstractLinear)A queue uses first-in-first-out algorithmStackAbstractLinear*The stack uses last-in-first-out algorithm
-Hash TableHash
-Non-LinearSA collection of key/value pairs that are arranged based on the hash code of the key
