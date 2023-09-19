@@ -8,3 +8,13 @@ D:\C# Projects\Wiki-Project v2\WindowsFormsApp1\obj\Debug\WikiProjectv2.csproj.G
 D:\C# Projects\Wiki-Project v2\WindowsFormsApp1\obj\Debug\WikiProjectv2.csproj.CoreCompileInputs.cache
 D:\C# Projects\Wiki-Project v2\WindowsFormsApp1\obj\Debug\WikiProject.exe
 D:\C# Projects\Wiki-Project v2\WindowsFormsApp1\obj\Debug\WikiProject.pdb
+D:\C# Projects\Wiki-Project\WikiProject\bin\Debug\WikiProject.exe.config
+D:\C# Projects\Wiki-Project\WikiProject\bin\Debug\WikiProject.exe
+D:\C# Projects\Wiki-Project\WikiProject\bin\Debug\WikiProject.pdb
+D:\C# Projects\Wiki-Project\WikiProject\obj\Debug\WikiProjectv2.csproj.AssemblyReference.cache
+D:\C# Projects\Wiki-Project\WikiProject\obj\Debug\WikiProject.WikiProgram.resources
+D:\C# Projects\Wiki-Project\WikiProject\obj\Debug\WikiProject.Properties.Resources.resources
+D:\C# Projects\Wiki-Project\WikiProject\obj\Debug\WikiProjectv2.csproj.GenerateResource.cache
+D:\C# Projects\Wiki-Project\WikiProject\obj\Debug\WikiProjectv2.csproj.CoreCompileInputs.cache
+D:\C# Projects\Wiki-Project\WikiProject\obj\Debug\WikiProject.exe
+D:\C# Projects\Wiki-Project\WikiProject\obj\Debug\WikiProject.pdb

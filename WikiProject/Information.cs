@@ -11,7 +11,7 @@ namespace WikiProject
     // Save the class as “Information.cs”.
 
     [Serializable]
-    internal class Information : IComparable<Information>
+    public class Information : IComparable<Information>, IComparer<Information>
     {
         private string name;
         private string category;
@@ -25,6 +25,11 @@ namespace WikiProject
             this.category = category;
             this.structure = structure;
             this.definition = definition;
+        }
+
+        public int Compare(Information x, Information y)
+        {
+            throw new NotImplementedException();
         }
 
         public int CompareTo(Information other)
@@ -55,6 +60,26 @@ namespace WikiProject
             this.category = category;
             this.structure = structure;
             this.definition = definition;
+        }
+        public void SetData(int index, string pData)
+        {
+            switch (index)
+            {
+                case 0:
+                    this.name = pData;
+                    break;
+                case 1:
+                    this.category = pData;
+                    break;
+                case 2:
+                    this.structure = pData;
+                    break;
+                case 3:
+                    this.definition = pData;
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }

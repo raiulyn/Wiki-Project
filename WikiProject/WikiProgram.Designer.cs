@@ -30,7 +30,6 @@
         {
             this.WikiData_ListView = new System.Windows.Forms.ListView();
             this.Name_TextBox = new System.Windows.Forms.TextBox();
-            this.Category_TextBox = new System.Windows.Forms.TextBox();
             this.Definition_Textbox = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.Category_Label = new System.Windows.Forms.Label();
@@ -45,11 +44,14 @@
             this.ProjectLabel_Text = new System.Windows.Forms.Label();
             this.Clear_Btn = new System.Windows.Forms.Button();
             this.StatusMsg_TextBox = new System.Windows.Forms.TextBox();
-            this.Structure_ComboBox = new System.Windows.Forms.ComboBox();
+            this.Category_ComboBox = new System.Windows.Forms.ComboBox();
             this.Add_Btn = new System.Windows.Forms.Button();
             this.Edit_Btn = new System.Windows.Forms.Button();
             this.Delete_Btn = new System.Windows.Forms.Button();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
+            this.Linear_RadioButton = new System.Windows.Forms.RadioButton();
+            this.Structure_GroupBox = new System.Windows.Forms.GroupBox();
+            this.NonLinear_RadioButton = new System.Windows.Forms.RadioButton();
+            this.Structure_GroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // WikiData_ListView
@@ -60,6 +62,7 @@
             this.WikiData_ListView.Size = new System.Drawing.Size(366, 310);
             this.WikiData_ListView.TabIndex = 0;
             this.WikiData_ListView.UseCompatibleStateImageBehavior = false;
+            this.WikiData_ListView.View = System.Windows.Forms.View.Details;
             // 
             // Name_TextBox
             // 
@@ -68,16 +71,9 @@
             this.Name_TextBox.Size = new System.Drawing.Size(250, 20);
             this.Name_TextBox.TabIndex = 1;
             // 
-            // Category_TextBox
-            // 
-            this.Category_TextBox.Location = new System.Drawing.Point(12, 142);
-            this.Category_TextBox.Name = "Category_TextBox";
-            this.Category_TextBox.Size = new System.Drawing.Size(250, 20);
-            this.Category_TextBox.TabIndex = 3;
-            // 
             // Definition_Textbox
             // 
-            this.Definition_Textbox.Location = new System.Drawing.Point(12, 239);
+            this.Definition_Textbox.Location = new System.Drawing.Point(12, 271);
             this.Definition_Textbox.Multiline = true;
             this.Definition_Textbox.Name = "Definition_Textbox";
             this.Definition_Textbox.Size = new System.Drawing.Size(250, 102);
@@ -114,7 +110,7 @@
             // 
             this.Definition_Label.AutoSize = true;
             this.Definition_Label.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Definition_Label.Location = new System.Drawing.Point(9, 219);
+            this.Definition_Label.Location = new System.Drawing.Point(9, 251);
             this.Definition_Label.Name = "Definition_Label";
             this.Definition_Label.Size = new System.Drawing.Size(77, 17);
             this.Definition_Label.TabIndex = 9;
@@ -186,7 +182,7 @@
             // 
             // Clear_Btn
             // 
-            this.Clear_Btn.Location = new System.Drawing.Point(12, 347);
+            this.Clear_Btn.Location = new System.Drawing.Point(12, 379);
             this.Clear_Btn.Name = "Clear_Btn";
             this.Clear_Btn.Size = new System.Drawing.Size(250, 23);
             this.Clear_Btn.TabIndex = 18;
@@ -198,21 +194,29 @@
             this.StatusMsg_TextBox.Location = new System.Drawing.Point(289, 9);
             this.StatusMsg_TextBox.Multiline = true;
             this.StatusMsg_TextBox.Name = "StatusMsg_TextBox";
+            this.StatusMsg_TextBox.ReadOnly = true;
             this.StatusMsg_TextBox.Size = new System.Drawing.Size(366, 42);
             this.StatusMsg_TextBox.TabIndex = 19;
             this.StatusMsg_TextBox.Text = "Status Message";
             // 
-            // Structure_ComboBox
+            // Category_ComboBox
             // 
-            this.Structure_ComboBox.FormattingEnabled = true;
-            this.Structure_ComboBox.Location = new System.Drawing.Point(12, 190);
-            this.Structure_ComboBox.Name = "Structure_ComboBox";
-            this.Structure_ComboBox.Size = new System.Drawing.Size(250, 21);
-            this.Structure_ComboBox.TabIndex = 20;
+            this.Category_ComboBox.FormattingEnabled = true;
+            this.Category_ComboBox.Items.AddRange(new object[] {
+            "Array",
+            "List",
+            "Tree",
+            "Graphs",
+            "Abstract",
+            "Hash"});
+            this.Category_ComboBox.Location = new System.Drawing.Point(12, 142);
+            this.Category_ComboBox.Name = "Category_ComboBox";
+            this.Category_ComboBox.Size = new System.Drawing.Size(250, 21);
+            this.Category_ComboBox.TabIndex = 20;
             // 
             // Add_Btn
             // 
-            this.Add_Btn.Location = new System.Drawing.Point(17, 379);
+            this.Add_Btn.Location = new System.Drawing.Point(17, 411);
             this.Add_Btn.Name = "Add_Btn";
             this.Add_Btn.Size = new System.Drawing.Size(75, 23);
             this.Add_Btn.TabIndex = 21;
@@ -221,7 +225,7 @@
             // 
             // Edit_Btn
             // 
-            this.Edit_Btn.Location = new System.Drawing.Point(98, 379);
+            this.Edit_Btn.Location = new System.Drawing.Point(98, 411);
             this.Edit_Btn.Name = "Edit_Btn";
             this.Edit_Btn.Size = new System.Drawing.Size(75, 23);
             this.Edit_Btn.TabIndex = 22;
@@ -230,34 +234,56 @@
             // 
             // Delete_Btn
             // 
-            this.Delete_Btn.Location = new System.Drawing.Point(179, 379);
+            this.Delete_Btn.Location = new System.Drawing.Point(179, 411);
             this.Delete_Btn.Name = "Delete_Btn";
             this.Delete_Btn.Size = new System.Drawing.Size(75, 23);
             this.Delete_Btn.TabIndex = 23;
             this.Delete_Btn.Text = "Delete";
             this.Delete_Btn.UseVisualStyleBackColor = true;
             // 
-            // radioButton1
+            // Linear_RadioButton
             // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Location = new System.Drawing.Point(133, 66);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(85, 17);
-            this.radioButton1.TabIndex = 24;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "radioButton1";
-            this.radioButton1.UseVisualStyleBackColor = true;
+            this.Linear_RadioButton.AutoSize = true;
+            this.Linear_RadioButton.Location = new System.Drawing.Point(46, 19);
+            this.Linear_RadioButton.Name = "Linear_RadioButton";
+            this.Linear_RadioButton.Size = new System.Drawing.Size(54, 17);
+            this.Linear_RadioButton.TabIndex = 24;
+            this.Linear_RadioButton.TabStop = true;
+            this.Linear_RadioButton.Text = "Linear";
+            this.Linear_RadioButton.UseVisualStyleBackColor = true;
+            // 
+            // Structure_GroupBox
+            // 
+            this.Structure_GroupBox.Controls.Add(this.NonLinear_RadioButton);
+            this.Structure_GroupBox.Controls.Add(this.Linear_RadioButton);
+            this.Structure_GroupBox.Location = new System.Drawing.Point(12, 196);
+            this.Structure_GroupBox.Name = "Structure_GroupBox";
+            this.Structure_GroupBox.Size = new System.Drawing.Size(250, 44);
+            this.Structure_GroupBox.TabIndex = 25;
+            this.Structure_GroupBox.TabStop = false;
+            this.Structure_GroupBox.Text = "Structures";
+            // 
+            // NonLinear_RadioButton
+            // 
+            this.NonLinear_RadioButton.AutoSize = true;
+            this.NonLinear_RadioButton.Location = new System.Drawing.Point(106, 19);
+            this.NonLinear_RadioButton.Name = "NonLinear_RadioButton";
+            this.NonLinear_RadioButton.Size = new System.Drawing.Size(77, 17);
+            this.NonLinear_RadioButton.TabIndex = 25;
+            this.NonLinear_RadioButton.TabStop = true;
+            this.NonLinear_RadioButton.Text = "Non-Linear";
+            this.NonLinear_RadioButton.UseVisualStyleBackColor = true;
             // 
             // WikiProgram
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(667, 445);
-            this.Controls.Add(this.radioButton1);
+            this.Controls.Add(this.Structure_GroupBox);
             this.Controls.Add(this.Delete_Btn);
             this.Controls.Add(this.Edit_Btn);
             this.Controls.Add(this.Add_Btn);
-            this.Controls.Add(this.Structure_ComboBox);
+            this.Controls.Add(this.Category_ComboBox);
             this.Controls.Add(this.StatusMsg_TextBox);
             this.Controls.Add(this.Clear_Btn);
             this.Controls.Add(this.ProjectLabel_Text);
@@ -272,11 +298,12 @@
             this.Controls.Add(this.Category_Label);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.Definition_Textbox);
-            this.Controls.Add(this.Category_TextBox);
             this.Controls.Add(this.Name_TextBox);
             this.Controls.Add(this.WikiData_ListView);
             this.Name = "WikiProgram";
             this.Text = "Wiki";
+            this.Structure_GroupBox.ResumeLayout(false);
+            this.Structure_GroupBox.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -286,7 +313,6 @@
 
         private System.Windows.Forms.ListView WikiData_ListView;
         private System.Windows.Forms.TextBox Name_TextBox;
-        private System.Windows.Forms.TextBox Category_TextBox;
         private System.Windows.Forms.TextBox Definition_Textbox;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label Category_Label;
@@ -301,11 +327,13 @@
         private System.Windows.Forms.Label ProjectLabel_Text;
         private System.Windows.Forms.Button Clear_Btn;
         private System.Windows.Forms.TextBox StatusMsg_TextBox;
-        private System.Windows.Forms.ComboBox Structure_ComboBox;
+        private System.Windows.Forms.ComboBox Category_ComboBox;
         private System.Windows.Forms.Button Add_Btn;
         private System.Windows.Forms.Button Edit_Btn;
         private System.Windows.Forms.Button Delete_Btn;
-        private System.Windows.Forms.RadioButton radioButton1;
+        private System.Windows.Forms.RadioButton Linear_RadioButton;
+        private System.Windows.Forms.GroupBox Structure_GroupBox;
+        private System.Windows.Forms.RadioButton NonLinear_RadioButton;
     }
 }
 
