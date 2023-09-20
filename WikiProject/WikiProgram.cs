@@ -38,8 +38,9 @@ namespace WikiProject
             Edit_Btn.Click += EditEntry;
             Clear_Btn.Click += Clear;
             Search_Btn.Click += Search;
+            Name_TextBox.DoubleClick += RegisterClearOnDoubleClick;
             WikiData_ListView.SelectedIndexChanged += SelectEntry;
-            WikiData_ListView.DoubleClick += RegisterClearOnDoubleClick;
+            WikiData_ListView.DoubleClick += RegisterDeleteOnDoubleClick;
             Save_Btn.Click += SaveFile;
             Load_Btn.Click += LoadFile;
             Application.ApplicationExit += AutoSave;
@@ -231,6 +232,7 @@ namespace WikiProject
             Sort();
             int index = data.BinarySearch(new Information(pName, null, null, null));
             WikiData_ListView.Items[index].Selected = true;
+            Search_TextBox.Clear();
 
             DisplayStatusMessage("Searched: " + pName);
         }
@@ -276,6 +278,10 @@ namespace WikiProject
 
         // 6.13 Create a double click event on the Name TextBox to clear the TextBboxes, ComboBox and Radio button.
         public void RegisterClearOnDoubleClick(object sender, EventArgs e)
+        {
+            Clear();
+        }
+        public void RegisterDeleteOnDoubleClick(object sender, EventArgs e)
         {
             if (WikiData_ListView.SelectedItems.Count > 0)
             {
