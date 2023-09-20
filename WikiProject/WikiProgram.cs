@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Drawing.Text;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,11 +31,13 @@ namespace WikiProject
         void Init()
         {
             data = new List<Information>();
+            PopulateCategoryBox();
             // Assigns all callbacks
             Add_Btn.Click += AddEntry;
             Delete_Btn.Click += DeleteEntry;
             Edit_Btn.Click += EditEntry;
             Clear_Btn.Click += Clear;
+            Search_Btn.Click += Search;
             WikiData_ListView.SelectedIndexChanged += SelectEntry;
             WikiData_ListView.DoubleClick += RegisterClearOnDoubleClick;
             Save_Btn.Click += SaveFile;
@@ -42,11 +45,12 @@ namespace WikiProject
             Application.ApplicationExit += AutoSave;
         }
 
-        private Information GetNewInformation()
+        // Custom Methods
+        private Information GetInputsData()
         {
             return new Information(Name_TextBox.Text, Category_ComboBox.Text, GetSelectedRadio(), Definition_Textbox.Text);
         }
-        private void RefreshBox()
+        private void RefreshWikiDataBox()
         {
             WikiData_ListView.Clear();
             WikiData_ListView.Columns.Add("Name");
@@ -62,9 +66,13 @@ namespace WikiProject
                 }
             }
         }
-        public void DisplayStatusMessage(string msg)
+        public void DisplayStatusMessage(string msg, bool showMessageWindow = false)
         {
             StatusMsg_TextBox.Text = "Status: " + msg;
+            if(showMessageWindow)
+            {
+                MessageBox.Show(msg);
+            }
         }
         
 
@@ -72,15 +80,33 @@ namespace WikiProject
         // Use a TextBox for the Name input, ComboBox for the Category, Radio group for the Structure and Multiline TextBox for the Definition.
         public void AddEntry(object sender, EventArgs e)
         {
-            data.Add(GetNewInformation());
-            RefreshBox();
+            data.Add(GetInputsData());
+            RefreshWikiDataBox();
             DisplayStatusMessage("Added Data");
         }
 
         // 6.4 Create a custom method to populate the ComboBox when the Form Load method is called. The six categories must be read from a simple text file.
-        public void PopulateBox(List<Information> pData)
+        public void PopulateCategoryBox()
         {
-            data = pData;
+            try
+            {
+                const string categoryFileName = "category.txt";
+                string line;
+                using (StreamReader sr = new StreamReader(categoryFileName))
+                {
+                    line = sr.ReadLine();
+                    Category_ComboBox.Items.Add(line);
+                    while (line != null)
+                    {
+                        line = sr.ReadLine();
+                        Category_ComboBox.Items.Add(line);
+                    }
+                }
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine("Exception: " + e.Message);
+            }
         }
 
         // 6.5 Create a custom ValidName method which will take a parameter string value from the Textbox Name and returns a Boolean after checking for duplicates.
@@ -148,12 +174,11 @@ namespace WikiProject
         private void DeleteEntry(int index)
         {
             data.RemoveAt(index);
-            RefreshBox();
+            RefreshWikiDataBox();
             Clear();
 
             string msg = "Data entry deleted";
-            DisplayStatusMessage(msg);
-            MessageBox.Show(msg);
+            DisplayStatusMessage(msg, true);
         }
 
         // 6.8 Create a button method that will save the edited record of the currently selected item in the ListView.
@@ -162,7 +187,7 @@ namespace WikiProject
         {
             if (WikiData_ListView.SelectedItems.Count > 0)
             {
-                EditEntry(WikiData_ListView.SelectedItems[0].Index, GetNewInformation());
+                EditEntry(WikiData_ListView.SelectedItems[0].Index, GetInputsData());
             }
             else
             {
@@ -172,25 +197,42 @@ namespace WikiProject
         private void EditEntry(int index, Information info)
         {
             data[index] = info;
-            RefreshBox();
+            RefreshWikiDataBox();
 
             string msg = "Data changed";
-            DisplayStatusMessage(msg);
-            MessageBox.Show(msg);
+            DisplayStatusMessage(msg, true);
         }
 
         // 6.9 Create a single custom method that will sort and then display the Name and Category from the wiki information in the list.
+        public void Sort(object sender, EventArgs e)
+        {
+            Sort();
+        }
         public void Sort()
         {
-            data.Sort((emp1, emp2) => emp2.GetData(0).CompareTo(emp1.GetData(0)));
+            data.Sort((emp1, emp2) => emp1.GetData(0).CompareTo(emp2.GetData(0)));
+            RefreshWikiDataBox();
         }
 
         // 6.10 Create a button method that will use the builtin binary search to find a Data Structure name.
         // If the record is found the associated details will populate the appropriate input controls and highlight the name in the ListView.
         // At the end of the search process the search input TextBox must be cleared.
+        public void Search(object sender, EventArgs e)
+        {
+            Search(Search_TextBox.Text);
+        }
         public void Search(string pName)
         {
-            data.BinarySearch(new Information());
+            if(!ValidName(pName))
+            {
+                return;
+            }
+
+            Sort();
+            int index = data.BinarySearch(new Information(pName, null, null, null));
+            WikiData_ListView.Items[index].Selected = true;
+
+            DisplayStatusMessage("Searched: " + pName);
         }
 
         // 6.11 Create a ListView event so a user can select a Data Structure Name from the list of Names and the associated information will be displayed in the related text boxes combo box and radio button
@@ -263,8 +305,7 @@ namespace WikiProject
                 saveFileDialog1.FileName = defaultFileName;
                 saveFileDialog1.Filter = "dat file|*.dat";
                 saveFileDialog1.Title = "Save an Dat File";
-                saveFileDialog1.ShowDialog();
-                if (saveFileDialog1.FileName != String.Empty)
+                if (saveFileDialog1.FileName != String.Empty && saveFileDialog1.ShowDialog() == DialogResult.OK)
                 {
                     using (var stream = File.Open(saveFileDialog1.FileName, FileMode.Create))
                     {
@@ -286,7 +327,11 @@ namespace WikiProject
 
                         }
                     }
-                    MessageBox.Show("Data Saved!");
+                    DisplayStatusMessage("Data saved", true);
+                }
+                else
+                {
+                    // If upon cancel needs to be implemnented
                 }
             }
             catch (IOException ex)
@@ -307,6 +352,8 @@ namespace WikiProject
                     openFileDialog.Filter = "dat files (*.txt)|*.dat|All files (*.*)|*.*";
                     openFileDialog.RestoreDirectory = true;
 
+                    int column = 4;
+
                     if (openFileDialog.ShowDialog() == DialogResult.OK)
                     {
                         //Read the contents of the file into a stream
@@ -319,21 +366,27 @@ namespace WikiProject
                             using (var reader = new BinaryReader(openFileDialog.OpenFile(), System.Text.Encoding.UTF8, false))
                             {
                                 data.Clear();
-                                while (openFileDialog.OpenFile().Position < openFileDialog.OpenFile().Length)
+                                int line = 0;
+                                while (reader.BaseStream.Position != reader.BaseStream.Length)
                                 {
                                     Information info = new Information();
-                                    for (int i = 0; i < 4; i++)
+                                    if (line < column)
                                     {
-                                        info.SetData(i, reader.ReadString());
+                                        for (int i = 0; i < column; i++)
+                                        {
+                                            info.SetData(i, reader.ReadString());
+                                        }
+                                        line++;
                                     }
                                     data.Add(info);
+                                    line = 0;
                                 }
                             }
                         }
                         Clear();
-                        RefreshBox();
-                        MessageBox.Show("Data Loaded!");
+                        RefreshWikiDataBox();
 
+                        DisplayStatusMessage("Data loaded", true);
                     }
                 }
             }
@@ -344,9 +397,36 @@ namespace WikiProject
         }
 
         // 6.15 The Wiki application will save data when the form closes.
+        const string AutoSaveFileName = "AutoSave.dat";
         public void AutoSave(object sender, EventArgs e)
         {
-            //SaveFile();
+            try
+            {
+                using (var stream = File.Open(AutoSaveFileName, FileMode.Create))
+                {
+                    using (var writer = new BinaryWriter(stream, System.Text.Encoding.UTF8, false))
+                    {
+                        // Check if there's data
+                        if (data.Count <= 0)
+                        {
+                            return;
+                        }
+                        // Save to binary
+                        foreach (var item in data)
+                        {
+                            for (int i = 0; i < 4; i++)
+                            {
+                                writer.Write(item.GetData(i));
+                            }
+                        }
+
+                    }
+                }
+            }
+            catch (IOException ex)
+            {
+                MessageBox.Show("Data File Error!/n" + ex.Message);
+            }
         }
 
         // 6.16 All code is required to be adequately commented.

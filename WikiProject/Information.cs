@@ -29,13 +29,13 @@ namespace WikiProject
 
         public int Compare(Information x, Information y)
         {
-            throw new NotImplementedException();
+            return x.GetData(0).CompareTo(y.GetData(0));
         }
 
         public int CompareTo(Information other)
         {
             // TODO: Inital function. Need changes
-            return 0;
+            return GetData(0).CompareTo(other.GetData(0));
         }
 
         public string GetData(int index)

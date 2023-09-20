@@ -202,13 +202,6 @@
             // Category_ComboBox
             // 
             this.Category_ComboBox.FormattingEnabled = true;
-            this.Category_ComboBox.Items.AddRange(new object[] {
-            "Array",
-            "List",
-            "Tree",
-            "Graphs",
-            "Abstract",
-            "Hash"});
             this.Category_ComboBox.Location = new System.Drawing.Point(12, 142);
             this.Category_ComboBox.Name = "Category_ComboBox";
             this.Category_ComboBox.Size = new System.Drawing.Size(250, 21);
