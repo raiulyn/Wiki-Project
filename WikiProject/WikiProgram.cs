@@ -306,7 +306,8 @@ namespace WikiProject
         public void SelectEntry(int index)
         {
             Name_TextBox.Text = data[index].GetData(0);
-            HighlightRadio(index);
+            Category_ComboBox.Text = data[index].GetData(1);
+            // HighlightRadio(index); // No idea if it meant to be highlighted or checked.
             foreach (var item in Structure_GroupBox.Controls)
             {
                 RadioButton btn = ((RadioButton)item);
