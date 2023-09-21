@@ -23,7 +23,6 @@ namespace WikiProject
             Init();
         }
 
-        
         // 6.2 Create a global List<T> of type Information called Wiki.
         private List<Information> data;
         private const string defaultFileName = "definitions.dat";
@@ -31,7 +30,8 @@ namespace WikiProject
         void Init()
         {
             data = new List<Information>();
-            PopulateCategoryBox();
+            PopulateCategoryBox(); // Gets category names from category.txt
+
             // Assigns all callbacks
             Add_Btn.Click += AddEntry;
             Delete_Btn.Click += DeleteEntry;
@@ -48,6 +48,39 @@ namespace WikiProject
         }
 
         // Custom Methods
+        private bool CheckInputsData()
+        {
+            int invalidInputs = 0;
+            string msg = string.Empty;
+            if (Name_TextBox.Text == string.Empty || Name_TextBox.Text == null)
+            {
+                msg += "Please Input Name /n";
+                invalidInputs++;
+            }
+            if (Category_ComboBox.Text == string.Empty || Category_ComboBox.Text == null)
+            {
+                msg += "Please Input Category /n";
+                invalidInputs++;
+            }
+            if (GetSelectedRadio() == string.Empty || GetSelectedRadio() == null)
+            {
+                msg += "Please Input Structure /n";
+                invalidInputs++;
+            }
+            if (Definition_Textbox.Text == string.Empty || Definition_Textbox.Text == null)
+            {
+                msg += "Please Input Definition /n";
+                invalidInputs++;
+            }
+
+            if(invalidInputs > 0)
+            {
+                DisplayStatusMessage(msg.Replace("/n", Environment.NewLine), true);
+                return false;
+            }
+            
+            return true;
+        }
         private Information GetInputsData()
         {
             return new Information(Name_TextBox.Text, Category_ComboBox.Text, GetSelectedRadio(), Definition_Textbox.Text);
@@ -71,7 +104,7 @@ namespace WikiProject
         public void DisplayStatusMessage(string msg, bool showMessageWindow = false)
         {
             StatusMsg_TextBox.Text = "Status: " + msg;
-            if(showMessageWindow)
+            if (showMessageWindow)
             {
                 MessageBox.Show(msg);
             }
@@ -86,8 +119,14 @@ namespace WikiProject
         }
         public void AddEntry()
         {
+            if (!CheckInputsData())
+            {
+                return;
+            }
             data.Add(GetInputsData());
+            Clear();
             RefreshWikiDataBox();
+
             DisplayStatusMessage("Added Data");
         }
 
@@ -109,7 +148,7 @@ namespace WikiProject
                     }
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Console.WriteLine("Exception: " + e.Message);
             }
@@ -119,7 +158,7 @@ namespace WikiProject
         // Use the built in List<T> method “Exists” to answer this requirement.
         public bool ValidName(string name)
         {
-            if(data.Exists(x => x.GetData(0) == name))
+            if (data.Exists(x => x.GetData(0) == name))
             {
                 return true;
             }
@@ -132,7 +171,7 @@ namespace WikiProject
         // 6.6 Create two methods to highlight and return the values from the Radio button GroupBox.
         // The first method must return a string value from the selected radio button (Linear or Non-Linear).
         // The second method must send an integer index which will highlight an appropriate radio button.
-        public void HighlightRadio (int index)
+        public void HighlightRadio(int index)
         {
             for (int i = 0; i < Structure_GroupBox.Controls.Count; i++)
             {
@@ -141,7 +180,14 @@ namespace WikiProject
         }
         public string GetSelectedRadio()
         {
-            return GetCheckedRadio(Structure_GroupBox).Text;
+            if(GetCheckedRadio(Structure_GroupBox) == null)
+            {
+                return string.Empty;
+            }
+            else
+            {
+                return GetCheckedRadio(Structure_GroupBox).Text;
+            }
         }
         private RadioButton GetCheckedRadio(Control container)
         {
@@ -160,7 +206,7 @@ namespace WikiProject
         // 6.7 Create a button method that will delete the currently selected record in the ListView. Ensure the user has the option to backout of this action by using a dialog box. Display an updated version of the sorted list at the end of this process.
         private void DeleteEntry(object sender, EventArgs e)
         {
-            if(WikiData_ListView.SelectedItems.Count > 0)
+            if (WikiData_ListView.SelectedItems.Count > 0)
             {
                 var confirmResult = MessageBox.Show("Are you sure?", "Delete", MessageBoxButtons.YesNo);
                 switch (confirmResult)
@@ -229,14 +275,14 @@ namespace WikiProject
         }
         private void Search(object sender, KeyEventArgs e)
         {
-            if(e.KeyCode == Keys.Enter)
+            if (e.KeyCode == Keys.Enter)
             {
                 Search(Search_TextBox.Text);
             }
         }
         public void Search(string pName)
         {
-            if(!ValidName(pName))
+            if (!ValidName(pName))
             {
                 return;
             }
@@ -252,7 +298,7 @@ namespace WikiProject
         // 6.11 Create a ListView event so a user can select a Data Structure Name from the list of Names and the associated information will be displayed in the related text boxes combo box and radio button
         private void SelectEntry(object sender, EventArgs e)
         {
-            if(WikiData_ListView.SelectedItems.Count > 0)
+            if (WikiData_ListView.SelectedItems.Count > 0)
             {
                 SelectEntry(WikiData_ListView.SelectedItems[0].Index);
             }
@@ -260,7 +306,7 @@ namespace WikiProject
         public void SelectEntry(int index)
         {
             Name_TextBox.Text = data[index].GetData(0);
-            Category_ComboBox.Text = data[index].GetData(1);
+            HighlightRadio(index);
             foreach (var item in Structure_GroupBox.Controls)
             {
                 RadioButton btn = ((RadioButton)item);
@@ -330,7 +376,7 @@ namespace WikiProject
                         using (var writer = new BinaryWriter(stream, System.Text.Encoding.UTF8, false))
                         {
                             // Check if there's data
-                            if(data.Count <= 0)
+                            if (data.Count <= 0)
                             {
                                 return;
                             }
@@ -415,12 +461,12 @@ namespace WikiProject
         }
 
         // 6.15 The Wiki application will save data when the form closes.
-        private const string AutoSaveFileName = "AutoSave.dat";
+        private const string autoSaveFileName = "AutoSave.dat";
         public void AutoSave(object sender, EventArgs e)
         {
             try
             {
-                using (var stream = File.Open(AutoSaveFileName, FileMode.Create))
+                using (var stream = File.Open(autoSaveFileName, FileMode.Create))
                 {
                     using (var writer = new BinaryWriter(stream, System.Text.Encoding.UTF8, false))
                     {
