@@ -26,7 +26,7 @@ namespace WikiProject
         
         // 6.2 Create a global List<T> of type Information called Wiki.
         private List<Information> data;
-        const string defaultFileName = "definitions.dat";
+        private const string defaultFileName = "definitions.dat";
 
         void Init()
         {
@@ -39,6 +39,7 @@ namespace WikiProject
             Clear_Btn.Click += Clear;
             Search_Btn.Click += Search;
             Name_TextBox.DoubleClick += RegisterClearOnDoubleClick;
+            Search_TextBox.KeyDown += Search;
             WikiData_ListView.SelectedIndexChanged += SelectEntry;
             WikiData_ListView.DoubleClick += RegisterDeleteOnDoubleClick;
             Save_Btn.Click += SaveFile;
@@ -75,11 +76,15 @@ namespace WikiProject
                 MessageBox.Show(msg);
             }
         }
-        
+
 
         // 6.3 Create a button method to ADD a new item to the list.
         // Use a TextBox for the Name input, ComboBox for the Category, Radio group for the Structure and Multiline TextBox for the Definition.
-        public void AddEntry(object sender, EventArgs e)
+        private void AddEntry(object sender, EventArgs e)
+        {
+            AddEntry();
+        }
+        public void AddEntry()
         {
             data.Add(GetInputsData());
             RefreshWikiDataBox();
@@ -153,7 +158,7 @@ namespace WikiProject
         }
 
         // 6.7 Create a button method that will delete the currently selected record in the ListView. Ensure the user has the option to backout of this action by using a dialog box. Display an updated version of the sorted list at the end of this process.
-        public void DeleteEntry(object sender, EventArgs e)
+        private void DeleteEntry(object sender, EventArgs e)
         {
             if(WikiData_ListView.SelectedItems.Count > 0)
             {
@@ -172,7 +177,7 @@ namespace WikiProject
                 MessageBox.Show("No Entry selected");
             }
         }
-        private void DeleteEntry(int index)
+        public void DeleteEntry(int index)
         {
             data.RemoveAt(index);
             RefreshWikiDataBox();
@@ -184,7 +189,7 @@ namespace WikiProject
 
         // 6.8 Create a button method that will save the edited record of the currently selected item in the ListView.
         // All the changes in the input controls will be written back to the list. Display an updated version of the sorted list at the end of this process.
-        public void EditEntry(object sender, EventArgs e)
+        private void EditEntry(object sender, EventArgs e)
         {
             if (WikiData_ListView.SelectedItems.Count > 0)
             {
@@ -195,7 +200,7 @@ namespace WikiProject
                 MessageBox.Show("No Entry selected");
             }
         }
-        private void EditEntry(int index, Information info)
+        public void EditEntry(int index, Information info)
         {
             data[index] = info;
             RefreshWikiDataBox();
@@ -205,7 +210,7 @@ namespace WikiProject
         }
 
         // 6.9 Create a single custom method that will sort and then display the Name and Category from the wiki information in the list.
-        public void Sort(object sender, EventArgs e)
+        private void Sort(object sender, EventArgs e)
         {
             Sort();
         }
@@ -218,9 +223,16 @@ namespace WikiProject
         // 6.10 Create a button method that will use the builtin binary search to find a Data Structure name.
         // If the record is found the associated details will populate the appropriate input controls and highlight the name in the ListView.
         // At the end of the search process the search input TextBox must be cleared.
-        public void Search(object sender, EventArgs e)
+        private void Search(object sender, EventArgs e)
         {
             Search(Search_TextBox.Text);
+        }
+        private void Search(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode == Keys.Enter)
+            {
+                Search(Search_TextBox.Text);
+            }
         }
         public void Search(string pName)
         {
@@ -238,14 +250,14 @@ namespace WikiProject
         }
 
         // 6.11 Create a ListView event so a user can select a Data Structure Name from the list of Names and the associated information will be displayed in the related text boxes combo box and radio button
-        public void SelectEntry(object sender, EventArgs e)
+        private void SelectEntry(object sender, EventArgs e)
         {
             if(WikiData_ListView.SelectedItems.Count > 0)
             {
                 SelectEntry(WikiData_ListView.SelectedItems[0].Index);
             }
         }
-        private void SelectEntry(int index)
+        public void SelectEntry(int index)
         {
             Name_TextBox.Text = data[index].GetData(0);
             Category_ComboBox.Text = data[index].GetData(1);
@@ -261,11 +273,11 @@ namespace WikiProject
         }
 
         // 6.12 Create a custom method that will clear and reset the TextBoxes, ComboBox and Radio button
-        public void Clear(object sender, EventArgs e)
+        private void Clear(object sender, EventArgs e)
         {
             Clear();
         }
-        private void Clear()
+        public void Clear()
         {
             Name_TextBox.ResetText();
             Category_ComboBox.ResetText();
@@ -277,11 +289,11 @@ namespace WikiProject
         }
 
         // 6.13 Create a double click event on the Name TextBox to clear the TextBboxes, ComboBox and Radio button.
-        public void RegisterClearOnDoubleClick(object sender, EventArgs e)
+        private void RegisterClearOnDoubleClick(object sender, EventArgs e)
         {
             Clear();
         }
-        public void RegisterDeleteOnDoubleClick(object sender, EventArgs e)
+        private void RegisterDeleteOnDoubleClick(object sender, EventArgs e)
         {
             if (WikiData_ListView.SelectedItems.Count > 0)
             {
@@ -299,7 +311,7 @@ namespace WikiProject
 
         // 6.14 Create two buttons for the manual open and save option; this must use a dialog box to select a file or rename a saved file.
         // All Wiki data is stored/retrieved using a binary reader/writer file format.
-        public void SaveFile(object sender, EventArgs e)
+        private void SaveFile(object sender, EventArgs e)
         {
             SaveFile();
         }
@@ -345,7 +357,7 @@ namespace WikiProject
                 MessageBox.Show("Data File Error!/n" + ex.Message);
             }
         }
-        public void LoadFile(object sender, EventArgs e)
+        private void LoadFile(object sender, EventArgs e)
         {
             LoadFile();
         }
@@ -403,7 +415,7 @@ namespace WikiProject
         }
 
         // 6.15 The Wiki application will save data when the form closes.
-        const string AutoSaveFileName = "AutoSave.dat";
+        private const string AutoSaveFileName = "AutoSave.dat";
         public void AutoSave(object sender, EventArgs e)
         {
             try

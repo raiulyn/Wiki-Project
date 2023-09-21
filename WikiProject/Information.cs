@@ -31,10 +31,8 @@ namespace WikiProject
         {
             return x.GetData(0).CompareTo(y.GetData(0));
         }
-
         public int CompareTo(Information other)
         {
-            // TODO: Inital function. Need changes
             return GetData(0).CompareTo(other.GetData(0));
         }
 

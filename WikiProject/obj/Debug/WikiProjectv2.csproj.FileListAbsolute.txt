@@ -18,3 +18,14 @@ D:\C# Projects\Wiki-Project\WikiProject\obj\Debug\WikiProjectv2.csproj.GenerateR
 D:\C# Projects\Wiki-Project\WikiProject\obj\Debug\WikiProjectv2.csproj.CoreCompileInputs.cache
 D:\C# Projects\Wiki-Project\WikiProject\obj\Debug\WikiProject.exe
 D:\C# Projects\Wiki-Project\WikiProject\obj\Debug\WikiProject.pdb
+C:\Users\30082866\Source\Repos\Wiki-Project\WikiProject\bin\Debug\WikiProject.exe.config
+C:\Users\30082866\Source\Repos\Wiki-Project\WikiProject\bin\Debug\WikiProject.exe
+C:\Users\30082866\Source\Repos\Wiki-Project\WikiProject\bin\Debug\WikiProject.pdb
+C:\Users\30082866\Source\Repos\Wiki-Project\WikiProject\obj\Debug\WikiProjectv2.csproj.AssemblyReference.cache
+C:\Users\30082866\Source\Repos\Wiki-Project\WikiProject\obj\Debug\WikiProjectv2.csproj.SuggestedBindingRedirects.cache
+C:\Users\30082866\Source\Repos\Wiki-Project\WikiProject\obj\Debug\WikiProject.WikiProgram.resources
+C:\Users\30082866\Source\Repos\Wiki-Project\WikiProject\obj\Debug\WikiProject.Properties.Resources.resources
+C:\Users\30082866\Source\Repos\Wiki-Project\WikiProject\obj\Debug\WikiProjectv2.csproj.GenerateResource.cache
+C:\Users\30082866\Source\Repos\Wiki-Project\WikiProject\obj\Debug\WikiProjectv2.csproj.CoreCompileInputs.cache
+C:\Users\30082866\Source\Repos\Wiki-Project\WikiProject\obj\Debug\WikiProject.exe
+C:\Users\30082866\Source\Repos\Wiki-Project\WikiProject\obj\Debug\WikiProject.pdb
