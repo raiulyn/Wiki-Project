@@ -57,9 +57,9 @@
             // WikiData_ListView
             // 
             this.WikiData_ListView.HideSelection = false;
-            this.WikiData_ListView.Location = new System.Drawing.Point(289, 94);
+            this.WikiData_ListView.Location = new System.Drawing.Point(290, 123);
             this.WikiData_ListView.Name = "WikiData_ListView";
-            this.WikiData_ListView.Size = new System.Drawing.Size(366, 310);
+            this.WikiData_ListView.Size = new System.Drawing.Size(366, 279);
             this.WikiData_ListView.TabIndex = 0;
             this.WikiData_ListView.UseCompatibleStateImageBehavior = false;
             this.WikiData_ListView.View = System.Windows.Forms.View.Details;
@@ -146,7 +146,7 @@
             // 
             // Search_TextBox
             // 
-            this.Search_TextBox.Location = new System.Drawing.Point(351, 68);
+            this.Search_TextBox.Location = new System.Drawing.Point(352, 97);
             this.Search_TextBox.Name = "Search_TextBox";
             this.Search_TextBox.Size = new System.Drawing.Size(223, 20);
             this.Search_TextBox.TabIndex = 14;
@@ -155,7 +155,7 @@
             // 
             this.Search_Label.AutoSize = true;
             this.Search_Label.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Search_Label.Location = new System.Drawing.Point(286, 68);
+            this.Search_Label.Location = new System.Drawing.Point(287, 97);
             this.Search_Label.Name = "Search_Label";
             this.Search_Label.Size = new System.Drawing.Size(59, 17);
             this.Search_Label.TabIndex = 15;
@@ -163,9 +163,9 @@
             // 
             // Search_Btn
             // 
-            this.Search_Btn.Location = new System.Drawing.Point(580, 66);
+            this.Search_Btn.Location = new System.Drawing.Point(581, 95);
             this.Search_Btn.Name = "Search_Btn";
-            this.Search_Btn.Size = new System.Drawing.Size(75, 23);
+            this.Search_Btn.Size = new System.Drawing.Size(75, 22);
             this.Search_Btn.TabIndex = 16;
             this.Search_Btn.Text = "Search";
             this.Search_Btn.UseVisualStyleBackColor = true;
@@ -195,7 +195,7 @@
             this.StatusMsg_TextBox.Multiline = true;
             this.StatusMsg_TextBox.Name = "StatusMsg_TextBox";
             this.StatusMsg_TextBox.ReadOnly = true;
-            this.StatusMsg_TextBox.Size = new System.Drawing.Size(366, 42);
+            this.StatusMsg_TextBox.Size = new System.Drawing.Size(366, 82);
             this.StatusMsg_TextBox.TabIndex = 19;
             this.StatusMsg_TextBox.Text = "Status Message";
             // 

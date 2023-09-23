@@ -4,6 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+/// =========================================
+/// 
+/// Wiki Software v 2.0
+/// 
+/// Made by Raymond Lai
+/// Student Code: 30082866
+/// 
+/// =========================================
+
 namespace WikiProject
 {
     // 6.1 Create a separate class file to hold the four data items of the Data Structure (use the Data Structure Matrix as a guide).
@@ -27,57 +36,50 @@ namespace WikiProject
             this.definition = definition;
         }
 
-        public int Compare(Information x, Information y)
-        {
-            return x.GetData(0).CompareTo(y.GetData(0));
-        }
+        // Comparers
         public int CompareTo(Information other)
         {
-            return GetData(0).CompareTo(other.GetData(0));
+            return this.GetName().CompareTo(other.GetName());
+        }
+        public int Compare(Information x, Information y)
+        {
+            return x.GetName().CompareTo(y.GetName());
         }
 
-        public string GetData(int index)
+        // Getters
+        public string GetName()
         {
-            switch (index)
-            {
-                case 0:
-                    return this.name;
-                case 1: 
-                    return this.category;
-                case 2: 
-                    return this.structure;
-                case 3: 
-                    return this.definition;
-                default:
-                    return this.name;
-            }
+            return this.name;
         }
-        public void SetData(string name, string category, string structure, string definition)
+        public string GetCategory()
         {
-            this.name = name;
-            this.category = category;
-            this.structure = structure;
-            this.definition = definition;
+            return this.category;
         }
-        public void SetData(int index, string pData)
+        public string GetStructure()
         {
-            switch (index)
-            {
-                case 0:
-                    this.name = pData;
-                    break;
-                case 1:
-                    this.category = pData;
-                    break;
-                case 2:
-                    this.structure = pData;
-                    break;
-                case 3:
-                    this.definition = pData;
-                    break;
-                default:
-                    break;
-            }
+            return this.structure;
+        }
+        public string GetDefinition()
+        {
+            return this.definition;
+        }
+
+        // Setters
+        public void SetName(string pData)
+        {
+            this.name = pData;
+        }
+        public void SetCategory(string pData)
+        {
+            this.category = pData;
+        }
+        public void SetStructure(string pData)
+        {
+            this.structure = pData;
+        }
+        public void SetDefinition(string pData)
+        {
+            this.definition = pData;
         }
     }
 }

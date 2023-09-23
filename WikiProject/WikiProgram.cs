@@ -12,6 +12,16 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
+using System.Globalization;
+
+/// =========================================
+/// 
+/// Wiki Software v 2.0
+/// 
+/// Made by Raymond Lai
+/// Student Code: 30082866
+/// 
+/// =========================================
 
 namespace WikiProject
 {
@@ -26,11 +36,12 @@ namespace WikiProject
         // 6.2 Create a global List<T> of type Information called Wiki.
         private List<Information> data;
         private const string defaultFileName = "definitions.dat";
+        private TextInfo globalTextInfo = new CultureInfo("en-US", false).TextInfo;
 
         void Init()
         {
             data = new List<Information>();
-            PopulateCategoryBox(); // Gets category names from category.txt
+            LoadCategoryBox(); // Gets category names from category.txt
 
             // Assigns all callbacks
             Add_Btn.Click += AddEntry;
@@ -47,70 +58,6 @@ namespace WikiProject
             Application.ApplicationExit += AutoSave;
         }
 
-        // Custom Methods
-        private bool CheckInputsData()
-        {
-            int invalidInputs = 0;
-            string msg = string.Empty;
-            if (Name_TextBox.Text == string.Empty || Name_TextBox.Text == null)
-            {
-                msg += "Please Input Name /n";
-                invalidInputs++;
-            }
-            if (Category_ComboBox.Text == string.Empty || Category_ComboBox.Text == null)
-            {
-                msg += "Please Input Category /n";
-                invalidInputs++;
-            }
-            if (GetSelectedRadio() == string.Empty || GetSelectedRadio() == null)
-            {
-                msg += "Please Input Structure /n";
-                invalidInputs++;
-            }
-            if (Definition_Textbox.Text == string.Empty || Definition_Textbox.Text == null)
-            {
-                msg += "Please Input Definition /n";
-                invalidInputs++;
-            }
-
-            if(invalidInputs > 0)
-            {
-                DisplayStatusMessage(msg.Replace("/n", Environment.NewLine), true);
-                return false;
-            }
-            
-            return true;
-        }
-        private Information GetInputsData()
-        {
-            return new Information(Name_TextBox.Text, Category_ComboBox.Text, GetSelectedRadio(), Definition_Textbox.Text);
-        }
-        private void RefreshWikiDataBox()
-        {
-            WikiData_ListView.Clear();
-            WikiData_ListView.Columns.Add("Name");
-            WikiData_ListView.Columns.Add("Category");
-            WikiData_ListView.Columns.Add("Structure");
-            WikiData_ListView.Columns.Add("Definition");
-            for (int rows = 0; rows < data.Count; rows++)
-            {
-                WikiData_ListView.Items.Add(data[rows].GetData(0));
-                for (int columns = 1; columns < 4; columns++)
-                {
-                    WikiData_ListView.Items[rows].SubItems.Add(data[rows].GetData(columns));
-                }
-            }
-        }
-        public void DisplayStatusMessage(string msg, bool showMessageWindow = false)
-        {
-            StatusMsg_TextBox.Text = "Status: " + msg;
-            if (showMessageWindow)
-            {
-                MessageBox.Show(msg);
-            }
-        }
-
-
         // 6.3 Create a button method to ADD a new item to the list.
         // Use a TextBox for the Name input, ComboBox for the Category, Radio group for the Structure and Multiline TextBox for the Definition.
         private void AddEntry(object sender, EventArgs e)
@@ -124,14 +71,15 @@ namespace WikiProject
                 return;
             }
             data.Add(GetInputsData());
+            Sort();
             Clear();
-            RefreshWikiDataBox();
+            DisplayWikiListView();
 
             DisplayStatusMessage("Added Data");
         }
 
         // 6.4 Create a custom method to populate the ComboBox when the Form Load method is called. The six categories must be read from a simple text file.
-        public void PopulateCategoryBox()
+        public void LoadCategoryBox()
         {
             try
             {
@@ -158,7 +106,7 @@ namespace WikiProject
         // Use the built in List<T> method “Exists” to answer this requirement.
         public bool ValidName(string name)
         {
-            if (data.Exists(x => x.GetData(0) == name))
+            if (data.Exists(x => x.GetName() == name))
             {
                 return true;
             }
@@ -166,6 +114,10 @@ namespace WikiProject
             {
                 return false;
             }
+        }
+        public string TrimAndTitle(string name)
+        {
+            return globalTextInfo.ToTitleCase(name.Trim());
         }
 
         // 6.6 Create two methods to highlight and return the values from the Radio button GroupBox.
@@ -226,7 +178,7 @@ namespace WikiProject
         public void DeleteEntry(int index)
         {
             data.RemoveAt(index);
-            RefreshWikiDataBox();
+            DisplayWikiListView();
             Clear();
 
             string msg = "Data entry deleted";
@@ -248,10 +200,13 @@ namespace WikiProject
         }
         public void EditEntry(int index, Information info)
         {
-            data[index] = info;
-            RefreshWikiDataBox();
+            string oldEntryName = data[index].GetName();
 
-            string msg = "Data changed";
+            data[index] = info;
+            DisplayWikiListView();
+            Clear();
+
+            string msg = "The following data has changed: " + oldEntryName;
             DisplayStatusMessage(msg, true);
         }
 
@@ -262,8 +217,8 @@ namespace WikiProject
         }
         public void Sort()
         {
-            data.Sort((emp1, emp2) => emp1.GetData(0).CompareTo(emp2.GetData(0)));
-            RefreshWikiDataBox();
+            data.Sort((emp1, emp2) => emp1.GetName().CompareTo(emp2.GetName()));
+            DisplayWikiListView();
         }
 
         // 6.10 Create a button method that will use the builtin binary search to find a Data Structure name.
@@ -282,17 +237,23 @@ namespace WikiProject
         }
         public void Search(string pName)
         {
-            if (!ValidName(pName))
+            string searchName = TrimAndTitle(pName);
+            if(String.IsNullOrEmpty(pName))
             {
+                DisplayStatusMessage("Please input a name for the search", true, "No Name input");
                 return;
             }
-
+            if (!ValidName(searchName))
+            {
+                DisplayStatusMessage("Cannot find any name matching the search", true, "No Name found");
+                return;
+            }
             Sort();
-            int index = data.BinarySearch(new Information(pName, null, null, null));
+            int index = data.BinarySearch(new Information(searchName, null, null, null));
             WikiData_ListView.Items[index].Selected = true;
             Search_TextBox.Clear();
 
-            DisplayStatusMessage("Searched: " + pName);
+            DisplayStatusMessage("Searched: " + searchName);
         }
 
         // 6.11 Create a ListView event so a user can select a Data Structure Name from the list of Names and the associated information will be displayed in the related text boxes combo box and radio button
@@ -305,18 +266,18 @@ namespace WikiProject
         }
         public void SelectEntry(int index)
         {
-            Name_TextBox.Text = data[index].GetData(0);
-            Category_ComboBox.Text = data[index].GetData(1);
+            Name_TextBox.Text = data[index].GetName();
+            Category_ComboBox.Text = data[index].GetCategory();
             // HighlightRadio(index); // No idea if it meant to be highlighted or checked.
             foreach (var item in Structure_GroupBox.Controls)
             {
                 RadioButton btn = ((RadioButton)item);
-                if (btn.Text == data[index].GetData(2))
+                if (btn.Text == data[index].GetStructure())
                 {
                     btn.Checked = true;
                 }
             }
-            Definition_Textbox.Text = data[index].GetData(3);
+            Definition_Textbox.Text = data[index].GetDefinition();
         }
 
         // 6.12 Create a custom method that will clear and reset the TextBoxes, ComboBox and Radio button
@@ -366,13 +327,14 @@ namespace WikiProject
         {
             try
             {
-                SaveFileDialog saveFileDialog1 = new SaveFileDialog();
-                saveFileDialog1.FileName = defaultFileName;
-                saveFileDialog1.Filter = "dat file|*.dat";
-                saveFileDialog1.Title = "Save an Dat File";
-                if (saveFileDialog1.FileName != String.Empty && saveFileDialog1.ShowDialog() == DialogResult.OK)
+                SaveFileDialog saveFileDialog = new SaveFileDialog();
+                saveFileDialog.FileName = defaultFileName;
+                saveFileDialog.InitialDirectory = Application.StartupPath; // Seems redundant as having a filename without any slashes points to the Startup Path anyway
+                saveFileDialog.Filter = "dat file|*.dat";
+                saveFileDialog.Title = "Save an Dat File";
+                if (saveFileDialog.FileName != String.Empty && saveFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    using (var stream = File.Open(saveFileDialog1.FileName, FileMode.Create))
+                    using (var stream = File.Open(saveFileDialog.FileName, FileMode.Create))
                     {
                         using (var writer = new BinaryWriter(stream, System.Text.Encoding.UTF8, false))
                         {
@@ -384,15 +346,18 @@ namespace WikiProject
                             // Save to binary
                             foreach (var item in data)
                             {
-                                for (int i = 0; i < 4; i++)
-                                {
-                                    writer.Write(item.GetData(i));
-                                }
+                                writer.Write(item.GetName());
+                                writer.Write(item.GetCategory());
+                                writer.Write(item.GetStructure());
+                                writer.Write(item.GetDefinition());
                             }
-
+                            
                         }
                     }
-                    DisplayStatusMessage("Data saved", true);
+
+                    string msg = "Data saved at /n";
+                    msg += Path.GetFullPath(saveFileDialog.FileName);
+                    DisplayStatusMessage(msg.Replace("/n", Environment.NewLine), true);
                 }
                 else
                 {
@@ -437,10 +402,10 @@ namespace WikiProject
                                     Information info = new Information();
                                     if (line < column)
                                     {
-                                        for (int i = 0; i < column; i++)
-                                        {
-                                            info.SetData(i, reader.ReadString());
-                                        }
+                                        info.SetName(reader.ReadString());
+                                        info.SetCategory(reader.ReadString());
+                                        info.SetStructure(reader.ReadString());
+                                        info.SetDefinition(reader.ReadString());
                                         line++;
                                     }
                                     data.Add(info);
@@ -449,9 +414,11 @@ namespace WikiProject
                             }
                         }
                         Clear();
-                        RefreshWikiDataBox();
+                        DisplayWikiListView();
 
-                        DisplayStatusMessage("Data loaded", true);
+                        string msg = "Data loaded from /n";
+                        msg += Path.GetFullPath(openFileDialog.FileName);
+                        DisplayStatusMessage(msg.Replace("/n", Environment.NewLine), true);
                     }
                 }
             }
@@ -479,10 +446,10 @@ namespace WikiProject
                         // Save to binary
                         foreach (var item in data)
                         {
-                            for (int i = 0; i < 4; i++)
-                            {
-                                writer.Write(item.GetData(i));
-                            }
+                            writer.Write(item.GetName());
+                            writer.Write(item.GetCategory());
+                            writer.Write(item.GetStructure());
+                            writer.Write(item.GetDefinition());
                         }
 
                     }
@@ -498,6 +465,90 @@ namespace WikiProject
         // Map the programming criteria and features to your code/methods by adding comments above the method signatures.
         // Ensure your code is compliant with the CITEMS coding standards (refer http://www.citems.com.au/).
 
+
+        #region Custom helpers
+        /// <summary>
+        /// Checks if any of the TextBoxes' values is empty or null
+        /// </summary>
+        /// <returns></returns>
+        private bool CheckInputsData()
+        {
+            int invalidInputs = 0;
+            string msg = string.Empty;
+            if (string.IsNullOrEmpty(Name_TextBox.Text))
+            {
+                msg += "Please Input Name /n";
+                invalidInputs++;
+            }
+            if (string.IsNullOrEmpty(Category_ComboBox.Text))
+            {
+                msg += "Please Input Category /n";
+                invalidInputs++;
+            }
+            if (string.IsNullOrEmpty(GetSelectedRadio()))
+            {
+                msg += "Please Input Structure /n";
+                invalidInputs++;
+            }
+            if (string.IsNullOrEmpty(Definition_Textbox.Text))
+            {
+                msg += "Please Input Definition /n";
+                invalidInputs++;
+            }
+
+            if (invalidInputs > 0)
+            {
+                DisplayStatusMessage(msg.Replace("/n", Environment.NewLine), true, "Data Needed");
+                return false;
+            }
+
+            return true;
+        }
+        /// <summary>
+        /// Grabs all String Texts from all TextBoxes.
+        /// </summary>
+        /// <returns></returns>
+        private Information GetInputsData()
+        {
+            return new Information(Name_TextBox.Text, Category_ComboBox.Text, GetSelectedRadio(), Definition_Textbox.Text);
+        }
+        /// <summary>
+        /// Refreshes and displays current data into the ListView
+        /// </summary>
+        private void DisplayWikiListView()
+        {
+            WikiData_ListView.Clear();
+            WikiData_ListView.Columns.Add("Name", 200);
+            WikiData_ListView.Columns.Add("Category", 200);
+            foreach (var item in data)
+            {
+                var entry = WikiData_ListView.Items.Add(item.GetName());
+                entry.SubItems.Add(item.GetCategory());
+            }
+        }
+        /// <summary>
+        /// Displays a message into the Status Message Textbox.
+        /// </summary>
+        /// <param name="msg">String to output</param>
+        /// <param name="showMessageWindow">Show Winforms Message Window</param>
+        /// <param name="messageCaption">Name of the Winforms Message Window else defaults to Messager</param>
+        public void DisplayStatusMessage(string msg, bool showMessageWindow = false, string messageCaption = null)
+        {
+            StatusMsg_TextBox.Text = "Status: " + Environment.NewLine + msg;
+
+            if (showMessageWindow)
+            {
+                if (string.IsNullOrEmpty(messageCaption))
+                {
+                    MessageBox.Show(msg, "Message");
+                }
+                else
+                {
+                    MessageBox.Show(msg, messageCaption);
+                }
+            }
+        }
+        #endregion
     }
 
 
