@@ -325,6 +325,13 @@ namespace WikiProject
         }
         public void SaveFile()
         {
+            // Check if there's data
+            if (data.Count <= 0)
+            {
+                DisplayStatusMessage("No Available Data to save", true, "Save Error");
+                return;
+            }
+
             try
             {
                 SaveFileDialog saveFileDialog = new SaveFileDialog();
@@ -432,17 +439,18 @@ namespace WikiProject
         private const string autoSaveFileName = "AutoSave.dat";
         public void AutoSave(object sender, EventArgs e)
         {
+            // Check if there's data
+            if (data.Count <= 0)
+            {
+                return;
+            }
+
             try
             {
                 using (var stream = File.Open(autoSaveFileName, FileMode.Create))
                 {
                     using (var writer = new BinaryWriter(stream, System.Text.Encoding.UTF8, false))
                     {
-                        // Check if there's data
-                        if (data.Count <= 0)
-                        {
-                            return;
-                        }
                         // Save to binary
                         foreach (var item in data)
                         {
