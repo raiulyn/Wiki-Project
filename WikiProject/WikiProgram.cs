@@ -237,7 +237,8 @@ namespace WikiProject
         }
         public void Search(string pName)
         {
-            string searchName = TrimAndTitle(pName);
+            Sort();
+            string searchName = TrimAndTitle(pName.ToLower());
             if(String.IsNullOrEmpty(pName))
             {
                 DisplayStatusMessage("Please input a name for the search", true, "No Name input");
@@ -248,12 +249,22 @@ namespace WikiProject
                 DisplayStatusMessage("Cannot find any name matching the search", true, "No Name found");
                 return;
             }
-            Sort();
             int index = data.BinarySearch(new Information(searchName, null, null, null));
             WikiData_ListView.Items[index].Selected = true;
             Search_TextBox.Clear();
 
             DisplayStatusMessage("Searched: " + searchName);
+        }
+        private int SearchWithSpaces(string pName)
+        {
+            for (int i = 0; i < data.Count; i++)
+            {
+                if (data[i].GetName().Contains(pName))
+                {
+                    return i;
+                }
+            }
+            return -1;
         }
 
         // 6.11 Create a ListView event so a user can select a Data Structure Name from the list of Names and the associated information will be displayed in the related text boxes combo box and radio button

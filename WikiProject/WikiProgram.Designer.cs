@@ -51,6 +51,7 @@
             this.Linear_RadioButton = new System.Windows.Forms.RadioButton();
             this.Structure_GroupBox = new System.Windows.Forms.GroupBox();
             this.NonLinear_RadioButton = new System.Windows.Forms.RadioButton();
+            this.label1 = new System.Windows.Forms.Label();
             this.Structure_GroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -268,11 +269,21 @@
             this.NonLinear_RadioButton.Text = "Non-Linear";
             this.NonLinear_RadioButton.UseVisualStyleBackColor = true;
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(41, 40);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(140, 13);
+            this.label1.TabIndex = 26;
+            this.label1.Text = "by Raymond Lai [30082866]";
+            // 
             // WikiProgram
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(667, 445);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.Structure_GroupBox);
             this.Controls.Add(this.Delete_Btn);
             this.Controls.Add(this.Edit_Btn);
@@ -328,6 +339,7 @@
         private System.Windows.Forms.RadioButton Linear_RadioButton;
         private System.Windows.Forms.GroupBox Structure_GroupBox;
         private System.Windows.Forms.RadioButton NonLinear_RadioButton;
+        private System.Windows.Forms.Label label1;
     }
 }
 

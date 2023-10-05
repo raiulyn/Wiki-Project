@@ -20,7 +20,7 @@ namespace WikiProject
     // Save the class as “Information.cs”.
 
     [Serializable]
-    public class Information : IComparable<Information>, IComparer<Information>
+    public class Information : IComparable<Information>
     {
         private string name;
         private string category;
@@ -36,14 +36,10 @@ namespace WikiProject
             this.definition = definition;
         }
 
-        // Comparers
+        // Comparer
         public int CompareTo(Information other)
         {
             return this.GetName().CompareTo(other.GetName());
-        }
-        public int Compare(Information x, Information y)
-        {
-            return x.GetName().CompareTo(y.GetName());
         }
 
         // Getters
