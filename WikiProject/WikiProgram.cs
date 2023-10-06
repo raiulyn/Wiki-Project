@@ -41,7 +41,6 @@ namespace WikiProject
         void Init()
         {
             data = new List<Information>();
-            LoadCategoryBox(); // Gets category names from category.txt
 
             // Assigns all callbacks
             Add_Btn.Click += AddEntry;
@@ -55,7 +54,8 @@ namespace WikiProject
             WikiData_ListView.DoubleClick += RegisterDeleteOnDoubleClick;
             Save_Btn.Click += SaveFile;
             Load_Btn.Click += LoadFile;
-            Application.ApplicationExit += AutoSave;
+            this.Load += LoadCategoryBox;
+            this.FormClosing += AutoSave;
         }
 
         // 6.3 Create a button method to ADD a new item to the list.
@@ -79,26 +79,20 @@ namespace WikiProject
         }
 
         // 6.4 Create a custom method to populate the ComboBox when the Form Load method is called. The six categories must be read from a simple text file.
-        public void LoadCategoryBox()
+        public void LoadCategoryBox(object sender, EventArgs e)
         {
             try
             {
                 const string categoryFileName = "category.txt";
-                string line;
-                using (StreamReader sr = new StreamReader(categoryFileName))
+                string[] lines = File.ReadAllLines(categoryFileName);
+                foreach (var item in lines)
                 {
-                    line = sr.ReadLine();
-                    Category_ComboBox.Items.Add(line);
-                    while (line != null)
-                    {
-                        line = sr.ReadLine();
-                        Category_ComboBox.Items.Add(line);
-                    }
+                    Category_ComboBox.Items.Add(item);
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Console.WriteLine("Exception: " + e.Message);
+                DisplayStatusMessage("Exception: " + ex.Message, true, "Error");
             }
         }
 
@@ -114,10 +108,6 @@ namespace WikiProject
             {
                 return false;
             }
-        }
-        public string TrimAndTitle(string name)
-        {
-            return globalTextInfo.ToTitleCase(name.Trim());
         }
 
         // 6.6 Create two methods to highlight and return the values from the Radio button GroupBox.
@@ -249,22 +239,12 @@ namespace WikiProject
                 DisplayStatusMessage("Cannot find any name matching the search", true, "No Name found");
                 return;
             }
-            int index = data.BinarySearch(new Information(searchName, null, null, null));
+            int index = -1;
+            index = data.BinarySearch(new Information(searchName, null, null, null));
             WikiData_ListView.Items[index].Selected = true;
             Search_TextBox.Clear();
 
             DisplayStatusMessage("Searched: " + searchName);
-        }
-        private int SearchWithSpaces(string pName)
-        {
-            for (int i = 0; i < data.Count; i++)
-            {
-                if (data[i].GetName().Contains(pName))
-                {
-                    return i;
-                }
-            }
-            return -1;
         }
 
         // 6.11 Create a ListView event so a user can select a Data Structure Name from the list of Names and the associated information will be displayed in the related text boxes combo box and radio button
@@ -486,6 +466,10 @@ namespace WikiProject
 
 
         #region Custom helpers
+        public string TrimAndTitle(string name)
+        {
+            return globalTextInfo.ToTitleCase(name.Trim());
+        }
         /// <summary>
         /// Checks if any of the TextBoxes' values is empty or null
         /// </summary>
