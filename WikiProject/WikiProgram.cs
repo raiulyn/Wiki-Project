@@ -66,10 +66,17 @@ namespace WikiProject
         }
         public void AddEntry()
         {
-            if (!CheckInputsData())
+            if (!CheckInputsData()) // Check if any empty input fields
             {
                 return;
             }
+            if(ValidName(TrimAndTitle(GetInputsData().GetName().ToLower()))) // Check if data already exists as an duplicate
+            {
+                DisplayStatusMessage("Duplicate Entry. Please add in an unique entry!", true, "Add Entry");
+                return;
+            }
+
+            // Add all input texts into an entry to the data list
             data.Add(GetInputsData());
             Sort();
             Clear();
@@ -553,6 +560,4 @@ namespace WikiProject
         }
         #endregion
     }
-
-
 }

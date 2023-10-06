@@ -1,0 +1,11 @@
+C:\Users\30082866\Source\Repos\Wiki-Project\WikiProject\bin\Release\WikiProject.exe.config
+C:\Users\30082866\Source\Repos\Wiki-Project\WikiProject\bin\Release\WikiProject.exe
+C:\Users\30082866\Source\Repos\Wiki-Project\WikiProject\bin\Release\WikiProject.pdb
+C:\Users\30082866\Source\Repos\Wiki-Project\WikiProject\obj\Release\WikiProjectv2.csproj.AssemblyReference.cache
+C:\Users\30082866\Source\Repos\Wiki-Project\WikiProject\obj\Release\WikiProjectv2.csproj.SuggestedBindingRedirects.cache
+C:\Users\30082866\Source\Repos\Wiki-Project\WikiProject\obj\Release\WikiProject.WikiProgram.resources
+C:\Users\30082866\Source\Repos\Wiki-Project\WikiProject\obj\Release\WikiProject.Properties.Resources.resources
+C:\Users\30082866\Source\Repos\Wiki-Project\WikiProject\obj\Release\WikiProjectv2.csproj.GenerateResource.cache
+C:\Users\30082866\Source\Repos\Wiki-Project\WikiProject\obj\Release\WikiProjectv2.csproj.CoreCompileInputs.cache
+C:\Users\30082866\Source\Repos\Wiki-Project\WikiProject\obj\Release\WikiProject.exe
+C:\Users\30082866\Source\Repos\Wiki-Project\WikiProject\obj\Release\WikiProject.pdb
