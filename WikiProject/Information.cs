@@ -20,7 +20,7 @@ namespace WikiProject
     // Save the class as “Information.cs”.
 
     [Serializable]
-    public class Information : IComparable<Information>
+    internal class Information : IComparable<Information>
     {
         private string name;
         private string category;

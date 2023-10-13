@@ -68,7 +68,7 @@ namespace WikiProject
             {
                 return;
             }
-            if(ValidName(TrimAndTitle(GetInputsData().GetName().ToLower()))) // Check if data already exists as an duplicate
+            if (ValidName(TrimAndTitle(GetInputsData().GetName().ToLower()))) // Check if data already exists as an duplicate
             {
                 DisplayStatusMessage("Duplicate Entry. Please add in an unique entry!", true, "Add Entry");
                 return;
@@ -118,36 +118,28 @@ namespace WikiProject
         // 6.6 Create two methods to highlight and return the values from the Radio button GroupBox.
         // The first method must return a string value from the selected radio button (Linear or Non-Linear).
         // The second method must send an integer index which will highlight an appropriate radio button.
-        public void HighlightRadio(int _index)
-        {
-            for (int i = 0; i < Structure_GroupBox.Controls.Count; i++)
-            {
-                Structure_GroupBox.Controls[_index].Focus();
-            }
-        }
         public string GetSelectedRadio()
         {
-            if(GetCheckedRadio(Structure_GroupBox) == null)
+            foreach (var item in Structure_GroupBox.Controls)
             {
-                return string.Empty;
-            }
-            else
-            {
-                return GetCheckedRadio(Structure_GroupBox).Text;
-            }
-        }
-        private RadioButton GetCheckedRadio(Control _container)
-        {
-            foreach (var control in _container.Controls)
-            {
-                RadioButton radio = control as RadioButton;
-
-                if (radio != null && radio.Checked)
+                RadioButton radio = item as RadioButton;
+                if (radio != null)
                 {
-                    return radio;
+                    if (radio.Checked)
+                    {
+                        return radio.Text;
+                    }
                 }
             }
-            return null;
+            return string.Empty;
+        }
+        public void SetSelectedRadio(int _index)
+        {
+            RadioButton radio = Structure_GroupBox.Controls[_index] as RadioButton;
+            if (radio != null)
+            {
+                radio.Checked = true;
+            }
         }
 
         // 6.7 Create a button method that will delete the currently selected record in the ListView. Ensure the user has the option to backout of this action by using a dialog box. Display an updated version of the sorted list at the end of this process.
@@ -186,18 +178,24 @@ namespace WikiProject
         {
             if (WikiData_ListView.SelectedItems.Count > 0)
             {
-                EditEntry(WikiData_ListView.SelectedItems[0].Index, GetInputsData());
+                EditEntry(WikiData_ListView.SelectedItems[0].Index, GetInputsData().GetName(), GetInputsData().GetCategory(), GetInputsData().GetStructure(), GetInputsData().GetDefinition());
             }
             else
             {
                 MessageBox.Show("No Entry selected");
             }
         }
-        public void EditEntry(int _index, Information _info)
+        public void EditEntry(int _index, string _name, string _category, string _structure, string _definition)
         {
             string oldEntryName = data[_index].GetName();
 
-            data[_index] = _info;
+            Information newInfo = new Information();
+            newInfo.SetName(_name);
+            newInfo.SetCategory(_category);
+            newInfo.SetStructure(_structure);
+            newInfo.SetDefinition(_definition);
+
+            data[_index] = newInfo;
             DisplayWikiListView();
             Clear();
 
@@ -234,7 +232,7 @@ namespace WikiProject
         {
             Sort();
             string searchName = TrimAndTitle(_name.ToLower());
-            if(String.IsNullOrEmpty(_name))
+            if (String.IsNullOrEmpty(_name))
             {
                 DisplayStatusMessage("Please input a name for the search", true, "No Name input");
                 return;
@@ -264,13 +262,15 @@ namespace WikiProject
         {
             Name_TextBox.Text = data[_index].GetName();
             Category_ComboBox.Text = data[_index].GetCategory();
-            // HighlightRadio(index); // No idea if it meant to be highlighted or checked.
-            foreach (var item in Structure_GroupBox.Controls)
+            for (int i = 0; i < Structure_GroupBox.Controls.Count; i++)
             {
-                RadioButton btn = ((RadioButton)item);
-                if (btn.Text == data[_index].GetStructure())
+                var btn = Structure_GroupBox.Controls[i] as RadioButton;
+                if (btn != null)
                 {
-                    btn.Checked = true;
+                    if (btn.Text == data[_index].GetStructure())
+                    {
+                        SetSelectedRadio(i);
+                    }
                 }
             }
             Definition_Textbox.Text = data[_index].GetDefinition();
@@ -354,7 +354,7 @@ namespace WikiProject
                                 writer.Write(item.GetStructure());
                                 writer.Write(item.GetDefinition());
                             }
-                            
+
                         }
                     }
 
