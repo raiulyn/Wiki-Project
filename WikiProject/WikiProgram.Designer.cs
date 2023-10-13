@@ -58,23 +58,23 @@
             // WikiData_ListView
             // 
             this.WikiData_ListView.HideSelection = false;
-            this.WikiData_ListView.Location = new System.Drawing.Point(290, 123);
+            this.WikiData_ListView.Location = new System.Drawing.Point(289, 40);
             this.WikiData_ListView.Name = "WikiData_ListView";
-            this.WikiData_ListView.Size = new System.Drawing.Size(366, 279);
+            this.WikiData_ListView.Size = new System.Drawing.Size(366, 333);
             this.WikiData_ListView.TabIndex = 0;
             this.WikiData_ListView.UseCompatibleStateImageBehavior = false;
             this.WikiData_ListView.View = System.Windows.Forms.View.Details;
             // 
             // Name_TextBox
             // 
-            this.Name_TextBox.Location = new System.Drawing.Point(12, 94);
+            this.Name_TextBox.Location = new System.Drawing.Point(12, 78);
             this.Name_TextBox.Name = "Name_TextBox";
             this.Name_TextBox.Size = new System.Drawing.Size(250, 20);
             this.Name_TextBox.TabIndex = 1;
             // 
             // Definition_Textbox
             // 
-            this.Definition_Textbox.Location = new System.Drawing.Point(12, 271);
+            this.Definition_Textbox.Location = new System.Drawing.Point(12, 242);
             this.Definition_Textbox.Multiline = true;
             this.Definition_Textbox.Name = "Definition_Textbox";
             this.Definition_Textbox.Size = new System.Drawing.Size(250, 102);
@@ -91,7 +91,7 @@
             // 
             this.Category_Label.AutoSize = true;
             this.Category_Label.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Category_Label.Location = new System.Drawing.Point(9, 122);
+            this.Category_Label.Location = new System.Drawing.Point(9, 101);
             this.Category_Label.Name = "Category_Label";
             this.Category_Label.Size = new System.Drawing.Size(73, 17);
             this.Category_Label.TabIndex = 7;
@@ -101,7 +101,7 @@
             // 
             this.Structure_Label.AutoSize = true;
             this.Structure_Label.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Structure_Label.Location = new System.Drawing.Point(9, 170);
+            this.Structure_Label.Location = new System.Drawing.Point(9, 148);
             this.Structure_Label.Name = "Structure_Label";
             this.Structure_Label.Size = new System.Drawing.Size(75, 17);
             this.Structure_Label.TabIndex = 8;
@@ -111,7 +111,7 @@
             // 
             this.Definition_Label.AutoSize = true;
             this.Definition_Label.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Definition_Label.Location = new System.Drawing.Point(9, 251);
+            this.Definition_Label.Location = new System.Drawing.Point(9, 222);
             this.Definition_Label.Name = "Definition_Label";
             this.Definition_Label.Size = new System.Drawing.Size(77, 17);
             this.Definition_Label.TabIndex = 9;
@@ -121,7 +121,7 @@
             // 
             this.Name_Label.AutoSize = true;
             this.Name_Label.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Name_Label.Location = new System.Drawing.Point(9, 74);
+            this.Name_Label.Location = new System.Drawing.Point(9, 58);
             this.Name_Label.Name = "Name_Label";
             this.Name_Label.Size = new System.Drawing.Size(49, 17);
             this.Name_Label.TabIndex = 11;
@@ -129,7 +129,7 @@
             // 
             // Save_Btn
             // 
-            this.Save_Btn.Location = new System.Drawing.Point(289, 410);
+            this.Save_Btn.Location = new System.Drawing.Point(289, 379);
             this.Save_Btn.Name = "Save_Btn";
             this.Save_Btn.Size = new System.Drawing.Size(178, 23);
             this.Save_Btn.TabIndex = 12;
@@ -138,7 +138,7 @@
             // 
             // Load_Btn
             // 
-            this.Load_Btn.Location = new System.Drawing.Point(473, 410);
+            this.Load_Btn.Location = new System.Drawing.Point(473, 379);
             this.Load_Btn.Name = "Load_Btn";
             this.Load_Btn.Size = new System.Drawing.Size(182, 23);
             this.Load_Btn.TabIndex = 13;
@@ -147,7 +147,7 @@
             // 
             // Search_TextBox
             // 
-            this.Search_TextBox.Location = new System.Drawing.Point(352, 97);
+            this.Search_TextBox.Location = new System.Drawing.Point(351, 14);
             this.Search_TextBox.Name = "Search_TextBox";
             this.Search_TextBox.Size = new System.Drawing.Size(223, 20);
             this.Search_TextBox.TabIndex = 14;
@@ -156,7 +156,7 @@
             // 
             this.Search_Label.AutoSize = true;
             this.Search_Label.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Search_Label.Location = new System.Drawing.Point(287, 97);
+            this.Search_Label.Location = new System.Drawing.Point(286, 14);
             this.Search_Label.Name = "Search_Label";
             this.Search_Label.Size = new System.Drawing.Size(59, 17);
             this.Search_Label.TabIndex = 15;
@@ -164,7 +164,7 @@
             // 
             // Search_Btn
             // 
-            this.Search_Btn.Location = new System.Drawing.Point(581, 95);
+            this.Search_Btn.Location = new System.Drawing.Point(580, 12);
             this.Search_Btn.Name = "Search_Btn";
             this.Search_Btn.Size = new System.Drawing.Size(75, 22);
             this.Search_Btn.TabIndex = 16;
@@ -183,7 +183,7 @@
             // 
             // Clear_Btn
             // 
-            this.Clear_Btn.Location = new System.Drawing.Point(12, 379);
+            this.Clear_Btn.Location = new System.Drawing.Point(12, 350);
             this.Clear_Btn.Name = "Clear_Btn";
             this.Clear_Btn.Size = new System.Drawing.Size(250, 23);
             this.Clear_Btn.TabIndex = 18;
@@ -192,11 +192,11 @@
             // 
             // StatusMsg_TextBox
             // 
-            this.StatusMsg_TextBox.Location = new System.Drawing.Point(289, 9);
+            this.StatusMsg_TextBox.Location = new System.Drawing.Point(12, 411);
             this.StatusMsg_TextBox.Multiline = true;
             this.StatusMsg_TextBox.Name = "StatusMsg_TextBox";
             this.StatusMsg_TextBox.ReadOnly = true;
-            this.StatusMsg_TextBox.Size = new System.Drawing.Size(366, 82);
+            this.StatusMsg_TextBox.Size = new System.Drawing.Size(643, 79);
             this.StatusMsg_TextBox.TabIndex = 19;
             this.StatusMsg_TextBox.Text = "Status Message";
             // 
@@ -204,14 +204,14 @@
             // 
             this.Category_ComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.Category_ComboBox.FormattingEnabled = true;
-            this.Category_ComboBox.Location = new System.Drawing.Point(12, 142);
+            this.Category_ComboBox.Location = new System.Drawing.Point(12, 121);
             this.Category_ComboBox.Name = "Category_ComboBox";
             this.Category_ComboBox.Size = new System.Drawing.Size(250, 21);
             this.Category_ComboBox.TabIndex = 20;
             // 
             // Add_Btn
             // 
-            this.Add_Btn.Location = new System.Drawing.Point(17, 411);
+            this.Add_Btn.Location = new System.Drawing.Point(25, 379);
             this.Add_Btn.Name = "Add_Btn";
             this.Add_Btn.Size = new System.Drawing.Size(75, 23);
             this.Add_Btn.TabIndex = 21;
@@ -220,7 +220,7 @@
             // 
             // Edit_Btn
             // 
-            this.Edit_Btn.Location = new System.Drawing.Point(98, 411);
+            this.Edit_Btn.Location = new System.Drawing.Point(106, 379);
             this.Edit_Btn.Name = "Edit_Btn";
             this.Edit_Btn.Size = new System.Drawing.Size(75, 23);
             this.Edit_Btn.TabIndex = 22;
@@ -229,7 +229,7 @@
             // 
             // Delete_Btn
             // 
-            this.Delete_Btn.Location = new System.Drawing.Point(179, 411);
+            this.Delete_Btn.Location = new System.Drawing.Point(187, 379);
             this.Delete_Btn.Name = "Delete_Btn";
             this.Delete_Btn.Size = new System.Drawing.Size(75, 23);
             this.Delete_Btn.TabIndex = 23;
@@ -251,7 +251,7 @@
             // 
             this.Structure_GroupBox.Controls.Add(this.NonLinear_RadioButton);
             this.Structure_GroupBox.Controls.Add(this.Linear_RadioButton);
-            this.Structure_GroupBox.Location = new System.Drawing.Point(12, 196);
+            this.Structure_GroupBox.Location = new System.Drawing.Point(12, 174);
             this.Structure_GroupBox.Name = "Structure_GroupBox";
             this.Structure_GroupBox.Size = new System.Drawing.Size(250, 44);
             this.Structure_GroupBox.TabIndex = 25;
@@ -282,7 +282,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(667, 445);
+            this.ClientSize = new System.Drawing.Size(667, 502);
             this.Controls.Add(this.Credit_Label);
             this.Controls.Add(this.Structure_GroupBox);
             this.Controls.Add(this.Delete_Btn);

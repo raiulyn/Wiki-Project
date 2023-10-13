@@ -30,25 +30,23 @@ namespace WikiProject
         public WikiProgram()
         {
             InitializeComponent();
-            Init();
+            AssignCallbacks();
         }
 
         // 6.2 Create a global List<T> of type Information called Wiki.
-        private List<Information> data;
+        private List<Information> data = new List<Information>();
         private const string defaultFileName = "definitions.dat";
         private TextInfo globalTextInfo = new CultureInfo("en-US", false).TextInfo;
 
-        void Init()
+        private void AssignCallbacks()
         {
-            data = new List<Information>();
-
-            // Assigns all callbacks
+            // More easily readable than fumbling around Designer
             Add_Btn.Click += AddEntry;
             Delete_Btn.Click += DeleteEntry;
             Edit_Btn.Click += EditEntry;
             Clear_Btn.Click += Clear;
             Search_Btn.Click += Search;
-            Name_TextBox.DoubleClick += RegisterClearOnDoubleClick;
+            Name_TextBox.DoubleClick += ClearOnDoubleClick;
             Search_TextBox.KeyDown += Search;
             WikiData_ListView.SelectedIndexChanged += SelectEntry;
             WikiData_ListView.DoubleClick += RegisterDeleteOnDoubleClick;
@@ -105,9 +103,9 @@ namespace WikiProject
 
         // 6.5 Create a custom ValidName method which will take a parameter string value from the Textbox Name and returns a Boolean after checking for duplicates.
         // Use the built in List<T> method “Exists” to answer this requirement.
-        public bool ValidName(string name)
+        public bool ValidName(string _name)
         {
-            if (data.Exists(x => x.GetName() == name))
+            if (data.Exists(x => x.GetName() == _name))
             {
                 return true;
             }
@@ -120,11 +118,11 @@ namespace WikiProject
         // 6.6 Create two methods to highlight and return the values from the Radio button GroupBox.
         // The first method must return a string value from the selected radio button (Linear or Non-Linear).
         // The second method must send an integer index which will highlight an appropriate radio button.
-        public void HighlightRadio(int index)
+        public void HighlightRadio(int _index)
         {
             for (int i = 0; i < Structure_GroupBox.Controls.Count; i++)
             {
-                Structure_GroupBox.Controls[i].Focus();
+                Structure_GroupBox.Controls[_index].Focus();
             }
         }
         public string GetSelectedRadio()
@@ -138,9 +136,9 @@ namespace WikiProject
                 return GetCheckedRadio(Structure_GroupBox).Text;
             }
         }
-        private RadioButton GetCheckedRadio(Control container)
+        private RadioButton GetCheckedRadio(Control _container)
         {
-            foreach (var control in container.Controls)
+            foreach (var control in _container.Controls)
             {
                 RadioButton radio = control as RadioButton;
 
@@ -172,9 +170,9 @@ namespace WikiProject
                 MessageBox.Show("No Entry selected");
             }
         }
-        public void DeleteEntry(int index)
+        public void DeleteEntry(int _index)
         {
-            data.RemoveAt(index);
+            data.RemoveAt(_index);
             DisplayWikiListView();
             Clear();
 
@@ -195,11 +193,11 @@ namespace WikiProject
                 MessageBox.Show("No Entry selected");
             }
         }
-        public void EditEntry(int index, Information info)
+        public void EditEntry(int _index, Information _info)
         {
-            string oldEntryName = data[index].GetName();
+            string oldEntryName = data[_index].GetName();
 
-            data[index] = info;
+            data[_index] = _info;
             DisplayWikiListView();
             Clear();
 
@@ -232,11 +230,11 @@ namespace WikiProject
                 Search(Search_TextBox.Text);
             }
         }
-        public void Search(string pName)
+        public void Search(string _name)
         {
             Sort();
-            string searchName = TrimAndTitle(pName.ToLower());
-            if(String.IsNullOrEmpty(pName))
+            string searchName = TrimAndTitle(_name.ToLower());
+            if(String.IsNullOrEmpty(_name))
             {
                 DisplayStatusMessage("Please input a name for the search", true, "No Name input");
                 return;
@@ -262,20 +260,20 @@ namespace WikiProject
                 SelectEntry(WikiData_ListView.SelectedItems[0].Index);
             }
         }
-        public void SelectEntry(int index)
+        public void SelectEntry(int _index)
         {
-            Name_TextBox.Text = data[index].GetName();
-            Category_ComboBox.Text = data[index].GetCategory();
+            Name_TextBox.Text = data[_index].GetName();
+            Category_ComboBox.Text = data[_index].GetCategory();
             // HighlightRadio(index); // No idea if it meant to be highlighted or checked.
             foreach (var item in Structure_GroupBox.Controls)
             {
                 RadioButton btn = ((RadioButton)item);
-                if (btn.Text == data[index].GetStructure())
+                if (btn.Text == data[_index].GetStructure())
                 {
                     btn.Checked = true;
                 }
             }
-            Definition_Textbox.Text = data[index].GetDefinition();
+            Definition_Textbox.Text = data[_index].GetDefinition();
         }
 
         // 6.12 Create a custom method that will clear and reset the TextBoxes, ComboBox and Radio button
@@ -295,7 +293,7 @@ namespace WikiProject
         }
 
         // 6.13 Create a double click event on the Name TextBox to clear the TextBboxes, ComboBox and Radio button.
-        private void RegisterClearOnDoubleClick(object sender, EventArgs e)
+        private void ClearOnDoubleClick(object sender, EventArgs e)
         {
             Clear();
         }
@@ -473,9 +471,9 @@ namespace WikiProject
 
 
         #region Custom helpers
-        public string TrimAndTitle(string name)
+        public string TrimAndTitle(string _name)
         {
-            return globalTextInfo.ToTitleCase(name.Trim());
+            return globalTextInfo.ToTitleCase(_name.Trim());
         }
         /// <summary>
         /// Checks if any of the TextBoxes' values is empty or null
@@ -542,19 +540,19 @@ namespace WikiProject
         /// <param name="msg">String to output</param>
         /// <param name="showMessageWindow">Show Winforms Message Window</param>
         /// <param name="messageCaption">Name of the Winforms Message Window else defaults to Messager</param>
-        public void DisplayStatusMessage(string msg, bool showMessageWindow = false, string messageCaption = null)
+        public void DisplayStatusMessage(string _msg, bool _showMessageWindow = false, string _messageCaption = null)
         {
-            StatusMsg_TextBox.Text = "Status: " + Environment.NewLine + msg;
+            StatusMsg_TextBox.Text = "Status: " + Environment.NewLine + _msg;
 
-            if (showMessageWindow)
+            if (_showMessageWindow)
             {
-                if (string.IsNullOrEmpty(messageCaption))
+                if (string.IsNullOrEmpty(_messageCaption))
                 {
-                    MessageBox.Show(msg, "Message");
+                    MessageBox.Show(_msg, "Message");
                 }
                 else
                 {
-                    MessageBox.Show(msg, messageCaption);
+                    MessageBox.Show(_msg, _messageCaption);
                 }
             }
         }

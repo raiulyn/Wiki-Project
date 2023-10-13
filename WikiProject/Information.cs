@@ -28,18 +28,18 @@ namespace WikiProject
         private string definition;
 
         public Information() { }
-        public Information(string name, string category, string structure, string definition)
+        public Information(string _name, string _category, string _structure, string _definition)
         {
-            this.name = name;
-            this.category = category;
-            this.structure = structure;
-            this.definition = definition;
+            this.name = _name;
+            this.category = _category;
+            this.structure = _structure;
+            this.definition = _definition;
         }
 
         // Comparer
-        public int CompareTo(Information other)
+        public int CompareTo(Information _other)
         {
-            return this.GetName().CompareTo(other.GetName());
+            return this.GetName().CompareTo(_other.GetName());
         }
 
         // Getters
@@ -61,21 +61,21 @@ namespace WikiProject
         }
 
         // Setters
-        public void SetName(string pData)
+        public void SetName(string _data)
         {
-            this.name = pData;
+            this.name = _data;
         }
-        public void SetCategory(string pData)
+        public void SetCategory(string _data)
         {
-            this.category = pData;
+            this.category = _data;
         }
-        public void SetStructure(string pData)
+        public void SetStructure(string _data)
         {
-            this.structure = pData;
+            this.structure = _data;
         }
-        public void SetDefinition(string pData)
+        public void SetDefinition(string _data)
         {
-            this.definition = pData;
+            this.definition = _data;
         }
     }
 }
